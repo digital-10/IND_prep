@@ -22,7 +22,7 @@ def join_abs_path(p1, p2):
     return os.path.abspath(os.path.join(p1, p2))
 
 
-def position_Y_COL(cols):  # Y label을 멘뒤로 위치
+def position_Y_COL(cols):  # Y label을 맨뒤로 위치
     cols = cols.copy()
     cols.remove(Y_COL)
     return cols + [Y_COL]
