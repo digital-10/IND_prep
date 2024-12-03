@@ -494,7 +494,12 @@ if __name__ == '__main__':
                     if config_dict['outlier'] is not np.nan:    
                         df_piped = outlier(df_piped)
                         df_piped = df_piped.reset_index(drop=True)
-
+        # 7.1 데이터 정제 저장
+                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
+                    dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
+                    Path(dest_path).mkdir(parents=True, exist_ok=True)
+                    dest_path = os.path.join(parent, os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv'))
+                    df_piped.to_csv(dest_path, index=False)
         # 8. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
         # 8.1 X_train 스케일링
                     con = df_piped['split'] == 'train'
