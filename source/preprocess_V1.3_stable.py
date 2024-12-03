@@ -93,21 +93,36 @@ def discrete_cont(df):
         date_cols_len = len(config_dict['date_col'])
 
 
-        
+    # json형
+    if (config_dict['dict_col'] is np.nan):
+        dict_cols_len = 0
+    else:
+        dict_cols_len = len(config_dict['dict_col'])
+    
+    # Case 1 : 날짜 컬럼이 없으면
+    if date_cols_len < 1:
+        # 이산형 변수: 숫자형이면서 고유값이 임계값보다 적은 경우
         discrete = [var for var in data.columns if
                     data[var].dtype != 'O' and var != Y_COL and data[var].nunique() < config_dict['discrete_thresh_hold']]
+        # 연속형 변수: 숫자형이면서 이산형이 아닌 경우
         continuous = [var for var in data.columns if
                       data[var].dtype != 'O' and var != Y_COL and var not in discrete]
+    # Case 2 : 날짜 컬럼이 있으면
     else:
+        # 이산형 변수: 숫자형이면서 고유값이 임계값보다 적은 경우 및 날자컬럼이 아닌 경우
         discrete = [var for var in data.columns if
-                    data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] and data[var].nunique() < config_dict['discrete_thresh_hold']]
+                    data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] and var not in config_dict['dict_col'] and data[var].nunique() < config_dict['discrete_thresh_hold']]
+        # 연속형 변수: 숫자형이면서 이산형이 아닌 경우 및 날자컬럼이 아닌 경우
         continuous = [var for var in data.columns if
-                      data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] and var not in discrete]
-    
-    # categorical
-    categorical = [var for var in data.columns if data[var].dtype == 'O' and var != Y_COL]
+                      data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] and var not in config_dict['dict_col'] and var not in discrete]
 
+    # categorical
+    # 객체형(문자열) 데이터이면서 타겟변수가 아닌 경우
+    categorical = [var for var in data.columns if data[var].dtype == 'O' and var != Y_COL and var not in config_dict['date_col'] and var not in config_dict['dict_col']]
+    
+    # 전처리 데이터 타입 확인용
     print('There are {} date_time variables'.format(date_cols_len))
+    print('There are {} dict variables'.format(dict_cols_len))
     print('There are {} discrete variables'.format(len(discrete)))
     print('There are {} continuous variables'.format(len(continuous)))
     print('There are {} categorical variables'.format(len(categorical)))
