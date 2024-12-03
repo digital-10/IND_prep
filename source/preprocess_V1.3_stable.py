@@ -12,6 +12,7 @@ from feature_engine import encoding as ce
 from feature_engine.discretisation import EqualFrequencyDiscretiser
 from feature_engine.discretisation import EqualWidthDiscretiser
 from feature_engine.encoding import OneHotEncoder
+from dateutil.parser import parse
 
 
 
