@@ -33,13 +33,10 @@ from feature_engine._docstrings.methods import (
 from feature_engine._docstrings.substitute import Substitution
 from feature_engine.dataframe_checks import check_X
 from feature_engine.imputation.base_imputer import BaseImputer
-from feature_engine.variable_handling._init_parameter_checks import (
-    _check_init_parameter_variables,
+from feature_engine.variable_handling import (
+    check_numerical_variables,
+    find_numerical_variables,
 )
-from feature_engine.variable_handling.variable_type_selection import (
-    find_or_check_numerical_variables,
-)
-
 
 @Substitution(
     variables=_variables_numerical_docstring,
