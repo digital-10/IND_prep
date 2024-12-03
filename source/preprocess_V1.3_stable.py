@@ -413,8 +413,12 @@ if __name__ == '__main__':
     # arv 예2: metro 
 
     try:
+        #파라미터
+        #folder = sys.argv[1]    # take input with argv parameter
+        folder = "loans"    #테스트용
+    
+        
         parent = join_abs_path(os.getcwd(), os.pardir)
-        folder = sys.argv[1]    # take input with argv parameter
         conf_file = f'argumet_{folder}.xlsx'      
         configs = pd.read_excel(join_abs_path(f'{parent}/config', conf_file), header=None).set_index(0)        
         config_cols = configs.index.tolist()
