@@ -366,7 +366,14 @@ def do_imputation(df, pipe):
         pipe.fit(xtrain, y_train)
         X_train = pipe.transform(xtrain)
         X_test = pipe.transform(xtest)
-
+        # 훈련 세트에 타겟 변수와 'split' 열 추가
+        X_train[Y_COL] = y_train        
+        X_train['split'] = 'train'
+        # 테스트 세트에 타겟 변수와 'split' 열 추가
+        X_test[Y_COL] = y_test
+        X_test['split'] = 'test'        
+        return pd.concat([X_train, X_test]).reset_index(drop=True)
+        
 def scaling(df):    
     df = df.copy()
     if config_dict['scale'] is np.nan:
