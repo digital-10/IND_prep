@@ -142,7 +142,31 @@ def separate_mixed(df):
     df.drop([mixed_col], axis=1, inplace=True)
     cols = position_Y_COL(list(df.columns))
     return df[cols]
+    
+# 소수형을 정수형으로
+def truncate_to_integer(series):
+    # 모든 값이 1보다 클 때까지 10을 곱함
+    while (series < 1).any():
+        series *= 10
+    
+    # 소수점 이하 잘라내고 정수로 변환
+    truncated_series = series.astype(int)
+    
+    # 원본 값과 변환된 값의 관계 저장(XAI 필요하면 사용)
+    #value_map = pd.Series(truncated_series.values, index=series.values)
+    
+    return truncated_series
 
+# 정수형의 1의 자리를 버림
+def truncate_to_ten(series):
+    series /= 10
+    # 소수점 이하 잘라내고 정수로 변환
+    truncated_series = series.astype(int)
+    truncated_series *= 10
+    # 원본 값과 변환된 값의 관계 저장(XAI 필요하면 사용)
+    #value_map = pd.Series(truncated_series.values, index=series.values)
+    
+    return truncated_series
 
 def discretiser(df, numeric):
     df = df.copy()
