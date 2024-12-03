@@ -474,16 +474,19 @@ if __name__ == '__main__':
                 if pipe == []:
                     print('no pipe applied')
                 else:
-        # 5. imputation thru pipeline
+        # 5. discretization(연속형 변수를 범주형으로)
+                    if config_dict['discretiser'] is not np.nan:
+                        df_piped = discretiser(df, discrete+continuous)
+        # 6. imputation thru pipeline
                     df_piped = do_imputation(df, pipe)
                     dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'{dest_path}/imputed'))
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv'))
-        # 5.1 imputation 저장
+        # 6.1 imputation 저장
                     df_piped.to_csv(dest_path, index=False)
 
-        # 6. discretization
+        # 7. discretization
                     if config_dict['discretiser'] is not np.nan:    
                         df_piped = discretiser(df_piped, discrete+continuous)
 
