@@ -450,6 +450,9 @@ if __name__ == '__main__':
         # 1. Label column Encoding
         df_labeld, y_null_exist = y_label_enc(df_initial)
 
+         # 1.1json 처리
+        df_jsoned = extract_json_data(df_labeld)
+
         # 2. discrete, continuous, categorical 구분작업
         df_organized, discrete, continuous, categorical = organize_data(df_labeld, y_null_exist)
 
