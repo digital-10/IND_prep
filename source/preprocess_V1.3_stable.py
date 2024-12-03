@@ -231,7 +231,44 @@ def outlier(df):
                     np.where(df[c] < lower_limit, True, False))
         df = df.loc[~(outliers_)]
     return df    
+#json 데이터 처리
+def extract_json_data(df):
+    """
+    주어진 JSON 문자열 데이터를 파싱하여 딕셔너리 형태로 변환하는 함수
 
+    Parameters:
+    json_column_data (list): JSON 문자열이 포함된 리스트
+
+    Returns:
+    DataFrame: JSON 데이터가 포함된 새로운 DataFrame
+    """
+    cols = config_dict['dict_col']
+    df = df.copy()
+    for col in cols:
+        json_column_data = df[col].tolist()
+        # JSON 데이터를 저장할 리스트
+        json_records = []
+
+        for json_str in json_column_data:
+            try:
+                # JSON 문자열을 파싱
+                json_data = json.loads(json_str)
+                json_records.append(json_data)
+            except (json.JSONDecodeError, TypeError) as e:
+                print(f"JSON 파싱 오류: {str(e)}")
+                json_records.append({})  # 오류 발생 시 빈 딕셔너리 추가
+        
+        # JSON 데이터를 DataFrame으로 변환
+        json_df = pd.DataFrame(json_records)
+
+        # 새로운 컬럼명 생성: 기존 컬럼명 + "_" + JSON 키
+        new_column_names = {key: f"{col}_{key}" for key in json_df.columns}
+        
+        # 새로운 컬럼명으로 DataFrame의 컬럼명 변경
+        json_df.rename(columns=new_column_names, inplace=True)
+        df = pd.concat([df, json_df], axis=1)
+        df.drop(col, axis=1, inplace=True)
+    return df
 
 def organize_data(df, y_null_exist):
     df = df.copy()
