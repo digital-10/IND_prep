@@ -373,6 +373,22 @@ def do_imputation(df, pipe):
         X_test[Y_COL] = y_test
         X_test['split'] = 'test'        
         return pd.concat([X_train, X_test]).reset_index(drop=True)
+     else:
+        # 전체 데이터에 대해 파이프라인을 적용
+        # 타겟 변수 분리
+        y_full = df[Y_COL]
+        
+        # 파이프라인을 전체 데이터에 맞춤
+        pipe.fit(df.drop(columns=[Y_COL]),y_full)
+        
+        # 변환 적용
+        X_full = pipe.transform(df.drop(columns=[Y_COL]))
+        
+        # 변환된 데이터프레임에 타겟 변수 추가
+        X_full[Y_COL] = y_full
+        X_full['split'] = 'full'
+        
+        return X_full.reset_index(drop=True)
         
 def scaling(df):    
     df = df.copy()
