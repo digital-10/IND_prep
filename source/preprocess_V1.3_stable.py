@@ -34,7 +34,13 @@ def position_Y_COL(cols):  # Y label을 맨뒤로 위치
     cols = cols.copy()
     cols.remove(Y_COL)
     return cols + [Y_COL]
-
+    
+# 안전한 날짜 파싱 함수
+def safe_parse(date_string):
+    try:
+        return parse(date_string)
+    except (ValueError, TypeError):
+        return None  # 또는 다른 오류 처리 방법
 
 def read_data(afile):    
     if config_dict['date_col'] is np.nan:
