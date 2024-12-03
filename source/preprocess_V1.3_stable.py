@@ -269,7 +269,7 @@ def extract_json_data(df):
         df = pd.concat([df, json_df], axis=1)
         df.drop(col, axis=1, inplace=True)
     return df
-# 271번째 줄 까지 코드 수정
+
 def organize_data(df, y_null_exist):
     df = df.copy()
     cols = list(df.columns)
@@ -299,42 +299,57 @@ def make_train_test(df):
     return X_train, X_test, y_train, y_test
 
 
-def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
+#각 형태별로 파이프라인을 추가하는 형태로 변경
+def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
+    # 연속형 변수와 이산형 변수를 합쳐서 수치형 변수로 처리
     numberImputer = continuous + discrete
-    categoricalImputer = categorical.copy()
-    categoricalImputer = [item for item in categoricalImputer if item not in config_dict['ohe']]
-    oheImputer = config_dict['ohe']
 
+    categoricalImputer = categorical.copy()
+    # One-Hot Encoding 대상 변수 제외
+    categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
+    oheImputer = config_dict['ohe']
+    
+    result={}
+    
+    # 수치형 변수와 범주형 변수가 모두 있는 경우
     if (len(numberImputer) > 0) & (len(categoricalImputer) > 0):
         pipe = Pipeline([
+            # 수치형 변수 결측치 대체
             ("imputer",
-             mm.MeanMedianImputer2(
-                 imputation_method=null_impute_type, variables=numberImputer),),
+            mm.MeanMedianImputer2(
+                imputation_method=null_impute_type, variables=numberImputer),),
+            # 범주형 변수 결측치 대체
             ('imputer_cat',
-             mdi.CategoricalImputer(variables=categorical)),
+            mdi.CategoricalImputer(variables=categorical)),
+            # One-Hot Encoding 적용
             ('categorical_encoder',
-             ce.OneHotEncoder(variables=oheImputer)),
+            ce.OneHotEncoder(variables=oheImputer)),
+            # 라벨링 인코딩 적용
             ('categorical_encoder2',
-             ce.OrdinalEncoder(encoding_method='ordered',
-                               variables=categoricalImputer))
+            ce.OrdinalEncoder(encoding_method='ordered',
+                variables=categoricalImputer))
         ])
     else:
+        # 수치형 변수만 있고 범주형 변수가 없는 경우
         if (len(numberImputer) > 0) & (len(categoricalImputer) == 0):
             pipe = Pipeline([
+                # 수치형 변수 결측치만 대체
                 ("imputer",
-                 mm.MeanMedianImputer2(
-                     imputation_method=null_impute_type, variables=numberImputer),)
+                mm.MeanMedianImputer2(
+                    imputation_method=null_impute_type, variables=numberImputer),)
             ])
         else:
+            # 범주형 변수만 있고 수치형 변수가 없는 경우
             if (len(numberImputer) == 0) & (len(categoricalImputer) > 0):
                 pipe = Pipeline([
+                    # 범주형 변수 결측치 대체
                     ('imputer_cat',
-                     mdi.CategoricalImputer(variables=categoricalImputer)),
+                    mdi.CategoricalImputer(variables=categorical)),
                     ('categorical_encoder',
-                     ce.OneHotEncoder(variables=oheImputer)),
+                    ce.OneHotEncoder(variables=oheImputer)),
                     ('categorical_encoder2',
-                     ce.OrdinalEncoder(encoding_method='ordered',
-                                       variables=categoricalImputer))
+                    ce.OrdinalEncoder(encoding_method='ordered',
+                        variables=categoricalImputer))
                 ])
             else:
                 pipe = []
