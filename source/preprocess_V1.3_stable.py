@@ -527,7 +527,14 @@ if __name__ == '__main__':
                     else:
                         X_test_scaled = []
          # 8.3 data frame merge
-                    df_scaled = pd.concat([X_train_scaled, X_test_scaled])
+                     if (len(X_train_scaled) == 0 and len(X_test_scaled) == 0 ):
+                        df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
+                        df_scaled = pd.DataFrame(df_scaled)
+                        df_scaled[Y_COL] = df_piped[Y_COL]
+                        df_scaled['split'] = df_piped['split']
+                        df_scaled.columns = df_piped.columns
+                    else :
+                        df_scaled = pd.concat([X_train_scaled, X_test_scaled])
          # 8.4 scaling 저장
                     dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                     dest_path = os.path.join(parent, os.path.join(dest_path, 'scaled'))
