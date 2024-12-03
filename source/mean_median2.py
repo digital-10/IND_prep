@@ -134,7 +134,10 @@ class MeanMedianImputer2(BaseImputer):
         X = check_X(X)
 
         # find or check for numerical variables
-        self.variables_ = find_or_check_numerical_variables(X, self.variables)
+        if self.variables is None:
+            self.variables_ = find_numerical_variables(X)
+        else:
+            self.variables_ = check_numerical_variables(X, self.variables)
 
         # find imputation parameters: mean or median
         if self.imputation_method == "mean":
