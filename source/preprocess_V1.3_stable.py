@@ -82,14 +82,18 @@ def y_label_enc(df):
     return df, Y_null_exist
 
 
+#분류별 컬럼 분류(discrete:셀수있음, continuous:연속형, categorical:오브젝트, 그외 날짜 데이터)
 def discrete_cont(df):
+    # 원본 데이터 보존을 위해 카피하여 작업함
     data = df.copy()
-    # numerical: discrete vs continuous
+    # 날짜형, 시간형
     if (config_dict['date_col'] is np.nan):
         date_cols_len = 0
     else:
         date_cols_len = len(config_dict['date_col'])
-    if date_cols_len < 1:
+
+
+        
         discrete = [var for var in data.columns if
                     data[var].dtype != 'O' and var != Y_COL and data[var].nunique() < config_dict['discrete_thresh_hold']]
         continuous = [var for var in data.columns if
