@@ -357,19 +357,9 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
 
 
 def do_imputation(df, pipe):
-    xtrain, xtest, y_train, y_test = make_train_test(df)
-
-    # pipe.fit(X_train, y_train)
-    pipe.fit(xtrain, y_train)
-    X_train = pipe.transform(xtrain)
-    X_test = pipe.transform(xtest)
-
-    X_train[Y_COL] = y_train        
-    X_train['split'] = 'train'
-    X_test[Y_COL] = y_test
-    X_test['split'] = 'test'        
-    return pd.concat([X_train, X_test]).reset_index(drop=True)
-
+    train=False
+    if(train):
+        xtrain, xtest, y_train, y_test = make_train_test(df)
 
 def scaling(df):    
     df = df.copy()
