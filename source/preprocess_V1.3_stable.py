@@ -503,11 +503,14 @@ if __name__ == '__main__':
         # 8. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
         # 8.1 X_train 스케일링
                     con = df_piped['split'] == 'train'
-                    X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
-                    X_train_scaled = pd.DataFrame(X_train_scaled)
-                    X_train_scaled[Y_COL] = df_piped[con][Y_COL]
-                    X_train_scaled['split'] = df_piped[con]['split']
-                    X_train_scaled.columns = df_piped.columns
+                    if not df_piped[con].empty:
+                        X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
+                        X_train_scaled = pd.DataFrame(X_train_scaled)
+                        X_train_scaled[Y_COL] = df_piped[con][Y_COL]
+                        X_train_scaled['split'] = df_piped[con]['split']
+                        X_train_scaled.columns = df_piped.columns
+                    else:
+                        X_train_scaled = []
          # 8.2 X_test 스케일링
                     con = df_piped['split'] == 'test'
                     X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
