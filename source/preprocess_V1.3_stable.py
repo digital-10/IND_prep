@@ -513,16 +513,19 @@ if __name__ == '__main__':
                         X_train_scaled = []
          # 8.2 X_test 스케일링
                     con = df_piped['split'] == 'test'
-                    X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
-                    X_test_scaled = pd.DataFrame(X_test_scaled)
-                    tmp = df_piped.copy().reset_index()
-                    X_test_scaled['index'] = tmp[con]['index'].values
-                    X_test_scaled = X_test_scaled.set_index('index')
-                    X_test_scaled[Y_COL] = df_piped[con][Y_COL]
-                    X_test_scaled['split'] = df_piped[con]['split']
-                    X_test_scaled.columns = df_piped.columns
-                    X_test_scaled.index.name = None
-                    del tmp
+                    if not df_piped[con].empty:
+                        X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
+                        X_test_scaled = pd.DataFrame(X_test_scaled)
+                        tmp = df_piped.copy().reset_index()
+                        X_test_scaled['index'] = tmp[con]['index'].values
+                        X_test_scaled = X_test_scaled.set_index('index')
+                        X_test_scaled[Y_COL] = df_piped[con][Y_COL]
+                        X_test_scaled['split'] = df_piped[con]['split']
+                        X_test_scaled.columns = df_piped.columns
+                        X_test_scaled.index.name = None
+                        del tmp
+                    else:
+                        X_test_scaled = []
          # 8.3 data frame merge
                     df_scaled = pd.concat([X_train_scaled, X_test_scaled])
          # 8.4 scaling 저장
