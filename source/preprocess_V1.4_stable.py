@@ -372,6 +372,14 @@ def do_imputation(df, pipe):
     train=False
     if(train):
         xtrain, xtest, y_train, y_test = make_train_test(df)
+        
+        # pipe.fit(X_train, y_train)
+        # 파이프라인을 훈련 데이터에 맞춤
+        pipe.fit(xtrain, y_train)
+        X_train = pipe.transform(xtrain)
+        X_test = pipe.transform(xtest)
+
+
 
 
 if __name__ == '__main__':
