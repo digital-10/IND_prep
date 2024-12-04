@@ -31,9 +31,7 @@ def join_abs_path(p1, p2):
 
 
 def position_Y_COL(cols):   # Y label을 가장 뒤로 위치 변경
-    cols = cols.copy()
-    cols.remove(Y_COL)
-    return cols + [Y_COL]
+   
     
 # 안전한 날짜 파싱 함수
 def safe_parse(date_string):
