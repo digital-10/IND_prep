@@ -370,6 +370,8 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     
 def do_imputation(df, pipe):
     train=False
+    if(train):
+        xtrain, xtest, y_train, y_test = make_train_test(df)
 
 
 if __name__ == '__main__':
