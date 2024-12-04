@@ -82,6 +82,7 @@ def y_label_enc(df):
     else:
         Y_null_exist = False
     labeler = LabelEncoder()
+    # 타겟 변수를 숫자로 인코딩
     df[Y_COL] = labeler.fit_transform(df[Y_COL])
     return df, Y_null_exist
 
