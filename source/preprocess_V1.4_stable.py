@@ -342,6 +342,16 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
             ('onehot_encoder',
             ce.OneHotEncoder(variables=oheImputer))
         )
+    # 라벨 인코딩 처리(데이터 종류별 고유수치로 변경, male->1, female->2)
+    if categoricalImputer and len(categoricalImputer) > 0:
+        steps.append(
+            ('label_encoder',
+            ce.OrdinalEncoder(
+                encoding_method='ordered',
+                variables=categoricalImputer
+                )
+            )
+        )
 
 
 
