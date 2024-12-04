@@ -322,6 +322,14 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     steps = []
     # 수치형 변수 처리 파이프라인(결측치를 null_impute_type값[mean,median,max,min]에 따라 채움)
     if numberImputer and len(numberImputer) > 0:
+        steps.append(
+            ("numeric_imputer", 
+            mm.MeanMedianImputer2(
+                imputation_method=null_impute_type,
+                variables=numberImputer
+                )
+            )
+        )
 
 
 def do_imputation(df, pipe):
