@@ -315,6 +315,8 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     categoricalImputer = categorical.copy()
     # One-Hot Encoding 대상 변수 제외
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
+    oheImputer = config_dict['ohe']
+    datecolImputer = config_dict['date_col']
 
 
 def do_imputation(df, pipe):
