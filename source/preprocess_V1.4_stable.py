@@ -226,7 +226,7 @@ def find_boundaries(df, variable, distance):
     upper_boundary = df[variable].quantile(0.75) + (IQR * distance)
     return upper_boundary, lower_boundary
 
-
+# 이상치 제거 함수
 def outlier(df):
     df = df.copy()
     cols = config_dict['outlier']
