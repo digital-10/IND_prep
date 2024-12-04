@@ -281,6 +281,11 @@ def organize_data(df, y_null_exist):
     cols.remove(Y_COL)
     null_threshhold_cols = []
     discrete, continuous, categorical = discrete_cont(df)
+    # - discrete: 이산형 변수
+    # - continuous: 연속형 변수
+    # - categorical: 범주형 변수
+
+    #널 비율이 임계치를 넘은 컬럼 명세 작성
 
     for col in cols:
         null_mean = df[col].isnull().mean()
