@@ -336,6 +336,12 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
             ('categorical_imputer',
             mdi.CategoricalImputer(variables=categorical))
         )
+    # 원핫인코딩 처리(데이터 종류만큼 컬럼을 만들어 1,0으로 표현)
+    if oheImputer and len(oheImputer) > 0:
+        steps.append(
+            ('onehot_encoder',
+            ce.OneHotEncoder(variables=oheImputer))
+        )
 
 
 
