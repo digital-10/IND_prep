@@ -317,6 +317,11 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
     oheImputer = config_dict['ohe']
     datecolImputer = config_dict['date_col']
+    result={}
+    
+    steps = []
+    # 수치형 변수 처리 파이프라인(결측치를 null_impute_type값[mean,median,max,min]에 따라 채움)
+    if numberImputer and len(numberImputer) > 0:
 
 
 def do_imputation(df, pipe):
