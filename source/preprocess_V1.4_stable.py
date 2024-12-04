@@ -330,58 +330,13 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
                 )
             )
         )
+    # 범주형 변수 처리 파이프라인(결측치를 최빈값으로 채움)
+    if categorical and len(categorical) > 0:
+        steps.append(
+            ('categorical_imputer',
+            mdi.CategoricalImputer(variables=categorical))
+        )
 
-
-def do_imputation(df, pipe):
-    train=False
-    if(train):
-        xtrain, xtest, y_train, y_test = make_train_test(df)
-
-        # pipe.fit(X_train, y_train)
-        # 파이프라인을 훈련 데이터에 맞춤
-        pipe.fit(xtrain, y_train)
-        X_train = pipe.transform(xtrain)
-        X_test = pipe.transform(xtest)
-        # 훈련 세트에 타겟 변수와 'split' 열 추가
-        X_train[Y_COL] = y_train        
-        X_train['split'] = 'train'
-        # 테스트 세트에 타겟 변수와 'split' 열 추가
-        X_test[Y_COL] = y_test
-        X_test['split'] = 'test'        
-        return pd.concat([X_train, X_test]).reset_index(drop=True)
-     else:
-        # 전체 데이터에 대해 파이프라인을 적용
-        # 타겟 변수 분리
-        y_full = df[Y_COL]
-        
-        # 파이프라인을 전체 데이터에 맞춤
-        pipe.fit(df.drop(columns=[Y_COL]),y_full)
-        
-        # 변환 적용
-        X_full = pipe.transform(df.drop(columns=[Y_COL]))
-        
-        # 변환된 데이터프레임에 타겟 변수 추가
-        X_full[Y_COL] = y_full
-        X_full['split'] = 'full'
-        
-        return X_full.reset_index(drop=True)
-        
-def scaling(df):    
-    df = df.copy()
-    if config_dict['scale'] is np.nan:
-        config_dict['scale'] =='minmax'   # default with minmax scaling
-    if config_dict['scale'] =='minmax':
-        scaler = MinMaxScaler()
-        scaler.fit(df)
-        return scaler.transform(df)
-    elif config_dict['scale'] =='standard':
-        scaler = StandardScaler()
-        scaler.fit(df)
-        return scaler.transform(df)
-    else: 
-        scaler = MinMaxScaler()
-        scaler.fit(df)
-        return scaler.transform(df)        
 
 
 if __name__ == '__main__':
