@@ -363,6 +363,10 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
                 )
             )
         )
+    # 파이프라인 생성
+    if steps:
+        return Pipeline(steps)
+    return []
 
 
 
