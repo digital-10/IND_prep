@@ -352,6 +352,17 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
                 )
             )
         )
+    # 시계열 데이터 처리(날짜형에서 연월일 추출, 시간형에서 타임델타 추출)
+    if datecolImputer and len(datecolImputer) > 0:
+        steps.append(
+            ('temporal_feature_engineering',
+            tf.DateFeatureTransformer2(
+                variables=datecolImputer,
+                features=['year', 'month', 'day', 'time_seconds'],
+                drop_original=True
+                )
+            )
+        )
 
 
 
