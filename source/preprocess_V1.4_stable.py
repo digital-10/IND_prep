@@ -367,7 +367,9 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     if steps:
         return Pipeline(steps)
     return []
-
+    
+def do_imputation(df, pipe):
+    train=False
 
 
 if __name__ == '__main__':
