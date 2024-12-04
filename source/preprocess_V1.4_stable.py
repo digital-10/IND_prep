@@ -76,6 +76,7 @@ def read_data(afile):
 
 def y_label_enc(df):
     df = df.copy()
+    # 타겟 변수(Y_COL)에 결측치가 있는지 확인
     if df[Y_COL].isnull().any():
         Y_null_exist = True
     else:
