@@ -219,7 +219,7 @@ def discretiser(df, numeric):
 #         df[col] = trans.transform(X)[col]
 #     return df
 
-
+#이상치 탐색을 위한 평균값 구하기
 def find_boundaries(df, variable, distance):
     IQR = df[variable].quantile(0.75) - df[variable].quantile(0.25)
     lower_boundary = df[variable].quantile(0.25) - (IQR * distance)
