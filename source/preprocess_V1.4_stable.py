@@ -313,6 +313,8 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 연속형 변수와 이산형 변수를 합쳐서 수치형 변수로 처리
     numberImputer = continuous + discrete
     categoricalImputer = categorical.copy()
+    # One-Hot Encoding 대상 변수 제외
+    categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
 
 
 def do_imputation(df, pipe):
