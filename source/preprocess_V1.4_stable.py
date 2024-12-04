@@ -209,15 +209,15 @@ def discretiser(df, numeric):
     return df
 
 
-def ohe(df):
-    df = df.copy()   
-    cols = config_dict['ohe']
-    for col in cols:
-        trans = OneHotEncoder()
-        X = df[[col]]
-        trans.fit(X)
-        df[col] = trans.transform(X)[col]
-    return df
+# def ohe(df):
+#     df = df.copy()   
+#     cols = config_dict['ohe']
+#     for col in cols:
+#         trans = OneHotEncoder()
+#         X = df[[col]]
+#         trans.fit(X)
+#         df[col] = trans.transform(X)[col]
+#     return df
 
 
 def find_boundaries(df, variable, distance):
