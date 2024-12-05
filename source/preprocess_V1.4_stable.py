@@ -405,7 +405,10 @@ def scaling(df):
     df = df.copy()
      if config_dict['scale'] is np.nan:
         config_dict['scale'] = ['minmax']
-
+     if config_dict['scale'][0] =='minmax':
+        scaler = MinMaxScaler()
+        scaler.fit(df)
+        return scaler.transform(df)
 
 
 
