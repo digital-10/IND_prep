@@ -453,3 +453,5 @@ if __name__ == '__main__':
         Y_COL = config_dict['y_col'][0]
         original_file = join_abs_path(f'{parent}/data/{folder}', config_dict['file_name'][0])
         df_initial = read_data(original_file)
+        # 1. Label column Encoding
+        df_labeld, y_null_exist = y_label_enc(df_initial)
