@@ -403,7 +403,8 @@ def do_imputation(df, pipe):
         return X_full.reset_index(drop=True)
 def scaling(df):    
     df = df.copy()
-    
+     if config_dict['scale'] is np.nan:
+        config_dict['scale'] = ['minmax']
 
 
 
