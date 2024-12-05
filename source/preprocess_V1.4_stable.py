@@ -400,6 +400,8 @@ def do_imputation(df, pipe):
         # 변환된 데이터프레임에 타겟 변수 추가
         X_full[Y_COL] = y_full
         X_full['split'] = 'full'
+        return X_full.reset_index(drop=True)
+
 
 
 
