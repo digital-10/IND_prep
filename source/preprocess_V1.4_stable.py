@@ -431,3 +431,10 @@ if __name__ == '__main__':
         conf_file = f'argumet_{folder}.xlsx'      
         configs = pd.read_excel(join_abs_path(f'{parent}/config', conf_file), header=None).set_index(0)        
         config_cols = configs.index.tolist()
+        for c in config_cols:
+            config_dict[c] = configs.loc[c].values[0]
+            if (type(config_dict[c]) == int) or (type(config_dict[c]) == float):
+                pass
+            else:
+                config_dict[c] = configs.loc[c].values[0].split(',')
+        ori_file_name = config_dict['file_name'][0].split('.')[0]
