@@ -466,3 +466,5 @@ if __name__ == '__main__':
             discrete, continuous, categorical = discrete_cont(df)
         else:
             df = df_organized.copy()
+        # null_impute_types 정의
+        null_impute_types = config_dict['null_imp']
