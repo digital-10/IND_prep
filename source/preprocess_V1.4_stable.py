@@ -450,3 +450,6 @@ if __name__ == '__main__':
         if config_dict['discrete_thresh_hold'] is np.nan or config_dict['discrete_thresh_hold'] < 0:
             print('discrete_thresh_hold set to default 10')
             config_dict['discrete_thresh_hold'] = 10
+        Y_COL = config_dict['y_col'][0]
+        original_file = join_abs_path(f'{parent}/data/{folder}', config_dict['file_name'][0])
+        df_initial = read_data(original_file)
