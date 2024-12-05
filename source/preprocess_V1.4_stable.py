@@ -420,5 +420,6 @@ def scaling(df):
 
 
 
-
-# main 함수 재검토 진행중
+if __name__ == '__main__':
+    # arv 예1: credit 
+    # arv 예2: metro 
