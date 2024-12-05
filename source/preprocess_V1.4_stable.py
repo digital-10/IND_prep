@@ -459,3 +459,10 @@ if __name__ == '__main__':
         df_jsoned = extract_json_data(df_labeld)
         # 2. discrete, continuous, categorical 구분작업
         df_organized, discrete, continuous, categorical = organize_data(df_jsoned, y_null_exist)
+
+        # 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
+        if config_dict['mixed'] is not np.nan:
+            df = separate_mixed(df_organized)
+            discrete, continuous, categorical = discrete_cont(df)
+        else:
+            df = df_organized.copy()
