@@ -438,3 +438,8 @@ if __name__ == '__main__':
             else:
                 config_dict[c] = configs.loc[c].values[0].split(',')
         ori_file_name = config_dict['file_name'][0].split('.')[0]
+        #mixed_str의 정수변환
+        if config_dict['mixed_str'] is np.nan or len(config_dict['mixed_str']) < 1:
+            pass
+        else:
+            config_dict['mixed_str'] = [eval(i) for i in config_dict['mixed_str']]  #배열의 각 값을 정수형으로 변환
