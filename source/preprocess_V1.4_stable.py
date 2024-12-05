@@ -468,3 +468,6 @@ if __name__ == '__main__':
             df = df_organized.copy()
         # null_impute_types 정의
         null_impute_types = config_dict['null_imp']
+        
+        if null_impute_types is not np.nan:
+            for null_impute_type in null_impute_types:
