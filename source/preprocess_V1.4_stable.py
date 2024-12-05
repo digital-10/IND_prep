@@ -401,7 +401,9 @@ def do_imputation(df, pipe):
         X_full[Y_COL] = y_full
         X_full['split'] = 'full'
         return X_full.reset_index(drop=True)
-
+def scaling(df):    
+    df = df.copy()
+    
 
 
 
