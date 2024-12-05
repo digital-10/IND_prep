@@ -477,3 +477,6 @@ if __name__ == '__main__':
                 if pipe == []:
                     print('no pipe applied')
                 else:
+        # 5. discretization(연속형 변수를 범주형으로)
+                    if config_dict['discretiser'] is not np.nan:
+                        df_piped = discretiser(df, discrete+continuous)
