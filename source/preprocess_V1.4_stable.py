@@ -390,7 +390,9 @@ def do_imputation(df, pipe):
         # 전체 데이터에 대해 파이프라인을 적용
         # 타겟 변수 분리
         y_full = df[Y_COL]
-    # 393번줄까지 코드 수정 완료
+        
+        # 파이프라인을 전체 데이터에 맞춤
+        pipe.fit(df.drop(columns=[Y_COL]),y_full)
 
 
 
