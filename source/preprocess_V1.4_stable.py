@@ -409,6 +409,10 @@ def scaling(df):
         scaler = MinMaxScaler()
         scaler.fit(df)
         return scaler.transform(df)
+     elif config_dict['scale'][0] =='standard':
+        scaler = StandardScaler()
+        scaler.fit(df)
+        return scaler.transform(df)
 
 
 
