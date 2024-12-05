@@ -413,6 +413,10 @@ def scaling(df):
         scaler = StandardScaler()
         scaler.fit(df)
         return scaler.transform(df)
+     else: 
+        scaler = MinMaxScaler()
+        scaler.fit(df)
+        return scaler.transform(df)  
 
 
 
