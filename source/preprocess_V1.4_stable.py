@@ -423,3 +423,7 @@ def scaling(df):
 if __name__ == '__main__':
     # arv 예1: credit 
     # arv 예2: metro 
+    try:
+        #파라미터
+        #folder = sys.argv[1]    # take input with argv parameter
+        folder = "loans"    #테스트용
