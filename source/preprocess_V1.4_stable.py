@@ -443,3 +443,6 @@ if __name__ == '__main__':
             pass
         else:
             config_dict['mixed_str'] = [eval(i) for i in config_dict['mixed_str']]  #배열의 각 값을 정수형으로 변환
+        if config_dict['y_col'] is np.nan or len(config_dict['y_col']) != 1:
+            print('No Y column exists')
+            raise Exception
