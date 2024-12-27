@@ -481,3 +481,4 @@ if __name__ == '__main__':
                     if config_dict['discretiser'] is not np.nan:
                         df_piped = discretiser(df, discrete+continuous)
         # 6. imputation thru pipeline
+                    df_piped = do_imputation(df, pipe)
