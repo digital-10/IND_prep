@@ -515,12 +515,15 @@ if __name__ == '__main__':
         # 10.2 X_test 스케일링
                 con = df_piped['split'] == 'test'
                 if not df_piped[con].empty:
-                X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
-                X_test_scaled = pd.DataFrame(X_test_scaled)
-                tmp = df_piped.copy().reset_index()
-                X_test_scaled['index'] = tmp[con]['index'].values
-                X_test_scaled = X_test_scaled.set_index('index')
-                X_test_scaled[Y_COL] = df_piped[con][Y_COL]
-                X_test_scaled['split'] = df_piped[con]['split']
-                X_test_scaled.columns = df_piped.columns
-                X_test_scaled.index.name = None
+                    X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
+                    X_test_scaled = pd.DataFrame(X_test_scaled)
+                    tmp = df_piped.copy().reset_index()
+                    X_test_scaled['index'] = tmp[con]['index'].values
+                    X_test_scaled = X_test_scaled.set_index('index')
+                    X_test_scaled[Y_COL] = df_piped[con][Y_COL]
+                    X_test_scaled['split'] = df_piped[con]['split']
+                    X_test_scaled.columns = df_piped.columns
+                    X_test_scaled.index.name = None
+                    del tmp
+                else:
+                    X_test_scaled = []
