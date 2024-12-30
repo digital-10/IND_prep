@@ -505,3 +505,4 @@ if __name__ == '__main__':
         # 10.1 X_train 스케일링
                 con = df_piped['split'] == 'train'
                 if not df_piped[con].empty:
+                    X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
