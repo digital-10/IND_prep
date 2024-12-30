@@ -546,3 +546,4 @@ if __name__ == '__main__':
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             print('비정상종료', e)
+            traceback.print_exc()
