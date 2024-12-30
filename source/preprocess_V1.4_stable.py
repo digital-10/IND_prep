@@ -547,3 +547,4 @@ if __name__ == '__main__':
             exc_type, exc_obj, exc_tb = sys.exc_info()
             print('비정상종료', e)
             traceback.print_exc()
+            print(exc_type, exc_tb.tb_lineno)
