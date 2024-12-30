@@ -533,3 +533,4 @@ if __name__ == '__main__':
                     df_scaled = pd.DataFrame(df_scaled)
                     df_scaled[Y_COL] = df_piped[Y_COL]
                     df_scaled['split'] = df_piped['split']
+                    df_scaled.columns = df_piped.columns
