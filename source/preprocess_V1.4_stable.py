@@ -489,3 +489,4 @@ if __name__ == '__main__':
         # 7.1 imputation 저장
                     df_piped.to_csv(dest_path, index=False)
         # 8. discretization(연속형 변수를 범주형으로)
+                    if config_dict['discretiser'] is not np.nan:
