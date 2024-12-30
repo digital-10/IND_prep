@@ -513,3 +513,4 @@ if __name__ == '__main__':
                 else:
                     X_train_scaled = []
         # 10.2 X_test 스케일링
+                con = df_piped['split'] == 'test'
