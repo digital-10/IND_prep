@@ -531,3 +531,4 @@ if __name__ == '__main__':
                 if (len(X_train_scaled) == 0 and len(X_test_scaled) == 0 ):
                     df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
                     df_scaled = pd.DataFrame(df_scaled)
+                    df_scaled[Y_COL] = df_piped[Y_COL]
