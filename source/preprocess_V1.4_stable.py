@@ -484,3 +484,4 @@ if __name__ == '__main__':
                     df_piped = do_imputation(df, pipe)
                     dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'{dest_path}/imputed'))
+                    Path(dest_path).mkdir(parents=True, exist_ok=True)
