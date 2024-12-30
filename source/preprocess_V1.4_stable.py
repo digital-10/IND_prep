@@ -542,3 +542,5 @@ if __name__ == '__main__':
                 Path(dest_path).mkdir(parents=True, exist_ok=True)
                 dest_path = os.path.join(parent, os.path.join(dest_path, f'scaled_{ori_file_name}_{null_impute_type}.csv'))
                 df_scaled.to_csv(dest_path, index=False)
+        print('Completed.')
+        except Exception as e:
