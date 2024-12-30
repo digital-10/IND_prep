@@ -504,3 +504,4 @@ if __name__ == '__main__':
         # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
         # 10.1 X_train 스케일링
                 con = df_piped['split'] == 'train'
+                if not df_piped[con].empty:
