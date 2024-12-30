@@ -519,3 +519,4 @@ if __name__ == '__main__':
                 X_test_scaled = pd.DataFrame(X_test_scaled)
                 tmp = df_piped.copy().reset_index()
                 X_test_scaled['index'] = tmp[con]['index'].values
+                X_test_scaled = X_test_scaled.set_index('index')
