@@ -529,3 +529,4 @@ if __name__ == '__main__':
                     X_test_scaled = []
         # 10.3 data frame merge
                 if (len(X_train_scaled) == 0 and len(X_test_scaled) == 0 ):
+                    df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
