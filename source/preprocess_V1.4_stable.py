@@ -486,3 +486,5 @@ if __name__ == '__main__':
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'{dest_path}/imputed'))
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv'))
+        # 7.1 imputation 저장
+                    df_piped.to_csv(dest_path, index=False)
