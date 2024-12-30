@@ -540,3 +540,4 @@ if __name__ == '__main__':
                 dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                 dest_path = os.path.join(parent, os.path.join(dest_path, 'scaled'))
                 Path(dest_path).mkdir(parents=True, exist_ok=True)
+                dest_path = os.path.join(parent, os.path.join(dest_path, f'scaled_{ori_file_name}_{null_impute_type}.csv'))
