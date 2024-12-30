@@ -538,3 +538,4 @@ if __name__ == '__main__':
                     df_scaled = pd.concat([X_train_scaled, X_test_scaled])
         # 10.4 scaling 저장
                 dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
+                dest_path = os.path.join(parent, os.path.join(dest_path, 'scaled'))
