@@ -508,3 +508,4 @@ if __name__ == '__main__':
                     X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
                     X_train_scaled = pd.DataFrame(X_train_scaled)
                     X_train_scaled[Y_COL] = df_piped[con][Y_COL]
+                    X_train_scaled['split'] = df_piped[con]['split']
