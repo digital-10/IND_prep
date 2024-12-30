@@ -518,3 +518,4 @@ if __name__ == '__main__':
                 X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
                 X_test_scaled = pd.DataFrame(X_test_scaled)
                 tmp = df_piped.copy().reset_index()
+                X_test_scaled['index'] = tmp[con]['index'].values
