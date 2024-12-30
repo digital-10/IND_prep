@@ -515,3 +515,4 @@ if __name__ == '__main__':
         # 10.2 X_test 스케일링
                 con = df_piped['split'] == 'test'
                 if not df_piped[con].empty:
+                X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
