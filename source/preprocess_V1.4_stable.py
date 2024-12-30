@@ -497,3 +497,4 @@ if __name__ == '__main__':
                     df_piped = df_piped.reset_index(drop=True)
         # 9.1 데이터 정제 저장
                 dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
+                dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
