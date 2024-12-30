@@ -501,3 +501,6 @@ if __name__ == '__main__':
                 Path(dest_path).mkdir(parents=True, exist_ok=True)
                 dest_path = os.path.join(parent, os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv'))
                 df_piped.to_csv(dest_path, index=False)
+        # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
+        # 10.1 X_train 스케일링
+                con = df_piped['split'] == 'train'
