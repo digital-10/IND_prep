@@ -506,3 +506,4 @@ if __name__ == '__main__':
                 con = df_piped['split'] == 'train'
                 if not df_piped[con].empty:
                     X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
+                    X_train_scaled = pd.DataFrame(X_train_scaled)
