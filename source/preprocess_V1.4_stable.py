@@ -521,3 +521,4 @@ if __name__ == '__main__':
                 X_test_scaled['index'] = tmp[con]['index'].values
                 X_test_scaled = X_test_scaled.set_index('index')
                 X_test_scaled[Y_COL] = df_piped[con][Y_COL]
+                X_test_scaled['split'] = df_piped[con]['split']
