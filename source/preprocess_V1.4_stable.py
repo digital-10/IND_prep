@@ -544,3 +544,4 @@ if __name__ == '__main__':
                 df_scaled.to_csv(dest_path, index=False)
         print('Completed.')
         except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
