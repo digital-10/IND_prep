@@ -498,3 +498,4 @@ if __name__ == '__main__':
         # 9.1 데이터 정제 저장
                 dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                 dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
+                Path(dest_path).mkdir(parents=True, exist_ok=True)
