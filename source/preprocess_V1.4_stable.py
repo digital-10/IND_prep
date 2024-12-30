@@ -532,3 +532,4 @@ if __name__ == '__main__':
                     df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
                     df_scaled = pd.DataFrame(df_scaled)
                     df_scaled[Y_COL] = df_piped[Y_COL]
+                    df_scaled['split'] = df_piped['split']
