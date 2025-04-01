@@ -1,0 +1,473 @@
+[33mcommit 954734e10f36e76345b2c7517e85de8f50aef706[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:34:04 2024 +0900
+
+    예외처리 설정2
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 6da0e3760925832176aa94e9395c0c1665d83d20[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:33:52 2024 +0900
+
+    예외처리 설정2
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit ce7af7414615ab98e30d09b55522bd2251e666cc[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:33:41 2024 +0900
+
+    예외처리 설정2
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit af81e11be1f491d22ed05cbf586e43fc21495746[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:33:25 2024 +0900
+
+    예외처리 설정2
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit e210718266d3be30492cf787f40b97d81ee1aa82[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:33:08 2024 +0900
+
+    예외처리 설정2
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit f6c1658de8c20672dd073c3ca8224a0864f9359d[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:32:27 2024 +0900
+
+    스케일링 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit e9579e7ec77b9f3171562649ef2ffc0df9b028a4[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:32:08 2024 +0900
+
+    스케일링 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit b46798b353441a4f9c2816d7b21ce76487e737de[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:31:51 2024 +0900
+
+    스케일링 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit f2f75babcd361dd1ae8ed15731dd8fd0b628a897[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:31:35 2024 +0900
+
+    스케일링 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit d2b69e3589299f25174da33ae31840e5be93a29c[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:30:57 2024 +0900
+
+    스케일링 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit c28b92853220a0c207aa95ea290af10733618aca[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:30:40 2024 +0900
+
+    스케일링 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 8a8aeee351b4b2430c0d6950606d411cd1f31208[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:30:18 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit fc5bcaba21775b05d84e983988761bc5eb465223[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:27:17 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 8469c7a42e1eddf80c014324382d9a988681a2e9[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:27:02 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit af5b56860564924c928d8f574208567ad6f700e0[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:26:47 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 7120fc462f47772e1b8fa4bea5db947b7a6880f6[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:26:34 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 67b265cbb87d61510e8814a17d4c7c92795f307e[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:26:18 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 028f84dd45cbd5ba561de09d4461f07ef9811e53[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:26:03 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 4dcaa75af3f0c168e8f320c71eefc73f5f1a40d9[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:25:38 2024 +0900
+
+    데이터 합치기
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit d55520241441c4035421b0f7203ab45c7d79e26d[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:25:09 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 10052724dadba1ddce37029de41d38b0f5a955a9[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:24:35 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 6db13bad49538a62fc1e43302e5fd7d0817e0517[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:24:11 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit b1aeba1faba73d8e86304e19098062e7a867d9ce[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:23:54 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 8c86d8267c65f1f35cb17a538efb0010535ce5c4[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:23:40 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit d215c2e7d5d9455bd68bdb186769bfb060e7cf6d[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:23:22 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit f404b56d02b74d797fab1cd539f6565d80c24774[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:23:02 2024 +0900
+
+    Update preprocess_V1.4_stable.py
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 9d2736298c97ceda3d66b1b626efa08e7fd9b39f[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:22:50 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 573e7ba02e58204cff602c37c043b7e6ae4e55c3[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:22:34 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 248d9675edc0b39d1e506d70f99c68efbc134c52[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:22:16 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 9445f3258fb0e3c920e06e51abab64b01fcada87[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:21:52 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit eadc2f14fd3e08bdc86c223269d07f19ebe391e5[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:21:33 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 200f2fdf3bd5119aabbc403d7f5a2404888948a3[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:21:08 2024 +0900
+
+    X_test 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 1f923526b32f79970503b748e40dfac94d900704[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:20:42 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 718f2160abb475d5054efe7b7d646aa8dd8170f0[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:19:34 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 19acdf8d01e5b18b3abd8ecd5afbebdce70c0a34[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:19:06 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 507467a4bdc39d4bf11ca6ffd59ad6b368aae671[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:18:50 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 10852ba91c5963334803f0231e8b92cf56219e15[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:18:24 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 7786ab6382360f02da318a91f2b091ae7314c1ce[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:18:07 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit e1978e92d1f8e33aa232e33d5dc6983708330d4c[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:17:48 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 73f18bf7ae9f98b8b237b4a8541ed01b5466928e[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:17:23 2024 +0900
+
+    X_train 스케일링
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 81cdcbda8652dcc129010abf35675b72deac1869[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:16:25 2024 +0900
+
+    정제 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 08324c0db04892cf77d5676ae68325a8ba1220ec[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:16:08 2024 +0900
+
+    정제 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 9ddc49aef867e33833372080f25f0cc84ac80a5e[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:15:43 2024 +0900
+
+    정제 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 29bc9ead838c6a273854899626368d7c8795be65[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:15:24 2024 +0900
+
+    Update preprocess_V1.4_stable.py
+    
+    정제 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit e1b60aaaa584e3f0d644f3099513c52e90d32706[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:15:03 2024 +0900
+
+    정제 데이터 저장
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit a69ada6cfe9934ca6fe92a84d5b4c695b1b51efe[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:14:32 2024 +0900
+
+    이상치 처리
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 5a4e1bfd5cbd3eca096a912ccdd9b59d2bfe79bb[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:14:04 2024 +0900
+
+    이상치 처리
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 2ca69b314a4be417bdd3da85b2f5a751a03b9d84[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:13:45 2024 +0900
+
+    이상치 처리
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit ea6efc81785f69484262a83df91ae549e1045bd2[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:12:55 2024 +0900
+
+    연속형 -> 범주형 전처리 작업 실행
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 48d423070f75f1be5c86ec72698b0504db962a51[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:12:21 2024 +0900
+
+    연속형 -> 범주형 전처리 코드
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 6905350ac45fd9eed16abd6bfc238b88cac07ac7[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:11:41 2024 +0900
+
+    연속형->범주형 변환
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 87b5b478f42c58ec706de557498fb7ffbd72df34[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:10:27 2024 +0900
+
+    결측치 파일 저장 코드
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit ae32a050cf57e9de86cb1b6b69bbdae077d73b72[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:10:00 2024 +0900
+
+    결측치 파일 경로 설정2
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 008afcb6b0180ca368ad12b99bf4aaecc0cf1b6b[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Mon Dec 30 09:09:33 2024 +0900
+
+    결측치 파일 경로 설정
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit a31455961803147cbcc4563bf1251e16e06eb2a9[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Fri Dec 27 09:05:09 2024 +0900
+
+    전처리 파일 경로 설정2
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 3c9ed84c6e9174603134bdf5892aba3ea4a0ed4b[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Fri Dec 27 09:04:37 2024 +0900
+
+    전처리 파일 경로 설정
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 2ea68dfcd436dfb9f075dad784de6fd31bd981bf[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Fri Dec 27 09:04:10 2024 +0900
+
+    결측치 대체 진행
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit b77798208468602688fd49cf2971df487cc63b7d[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Fri Dec 27 09:03:22 2024 +0900
+
+    파이프라인 전처리 개발중
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>
+
+[33mcommit 92b516b4dff4a66cae96595ede6c4ffff85d6058[m
+Author: Digitalship <83201044+digital-10@users.noreply.github.com>
+Date:   Thu Dec 5 16:37:11 2024 +0900
+
+    Update preprocess_V1.4_stable.py
+    
+    Signed-off-by: Digitalship <83201044+digital-10@users.noreply.github.com>

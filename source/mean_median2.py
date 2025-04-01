@@ -12,7 +12,6 @@ from typing import List, Optional, Union
 
 import pandas as pd
 
-
 from feature_engine._check_init_parameters.check_variables import (
     _check_variables_input_value,
 )
