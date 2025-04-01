@@ -25,19 +25,21 @@ import warnings
 import traceback
 import json
 
+warnings.filterwarnings('ignore')
+
 
 def join_abs_path(p1, p2):
     return os.path.abspath(os.path.join(p1, p2))
 
 
-def position_Y_COL(cols):   # Y label을 가장 뒤로 위치 변경
-   if Y_COL in cols:  # Y_COL이 있을 때만 remove 실행
+def position_Y_COL(cols):  # Y label을 가장 뒤로 위치 변경
+    if Y_COL in cols:  # Y_COL이 있을 때만 remove 실행
         cols_copy = cols.copy()
         cols_copy.remove(Y_COL)
         return cols_copy + [Y_COL]
-   else:  # Y_COL이 없으면 변경없이 리턴
+    else:  # Y_COL이 없으면 변경없이 리턴
         return cols
-    
+
 # 안전한 날짜 파싱 함수
 def safe_parse(date_string):
     try:
@@ -71,7 +73,7 @@ def read_data(afile):
     df = pd.read_csv(afile, usecols=config_dict['keep_col'])
     cols = list(df.columns)
     cols = position_Y_COL(cols)
-    return df[cols]
+    return df[cols]  
 
 
 def y_label_enc(df):
@@ -86,7 +88,6 @@ def y_label_enc(df):
     df[Y_COL] = labeler.fit_transform(df[Y_COL])
     return df, Y_null_exist
 
-
 #분류별 컬럼 분류(discrete:셀수있음, continuous:연속형, categorical:오브젝트, 그외 날짜 데이터)
 def discrete_cont(df):
     # 원본 데이터 보존을 위해 카피하여 작업함
@@ -96,8 +97,7 @@ def discrete_cont(df):
         date_cols_len = 0
     else:
         date_cols_len = len(config_dict['date_col'])
-
-
+    
     # json형
     if (config_dict['dict_col'] is np.nan):
         dict_cols_len = 0
@@ -139,7 +139,7 @@ def separate_mixed(df):
     s = config_dict['mixed_str'][0]
     e = config_dict['mixed_str'][1]
     mixed_col = config_dict['mixed'][0]
-    df[mixed_col+'num'] = df[mixed_col].str.extract('(\d+)') # captures numerical part
+    df[mixed_col+'num'] = df[mixed_col].str.extract(r'(\d+)') # captures numerical part
     df[mixed_col+'num'] = df[mixed_col+'num'].astype('float')
     df[mixed_col+'cat'] = df[mixed_col].str[s:e] # captures the first letter
 
@@ -147,7 +147,7 @@ def separate_mixed(df):
     df.drop([mixed_col], axis=1, inplace=True)
     cols = position_Y_COL(list(df.columns))
     return df[cols]
-    
+
 # 소수형을 정수형으로
 def truncate_to_integer(series):
     # 모든 값이 1보다 클 때까지 10을 곱함
@@ -208,16 +208,16 @@ def discretiser(df, numeric):
 
     return df
 
-
-# def ohe(df):
-#     df = df.copy()   
-#     cols = config_dict['ohe']
-#     for col in cols:
-#         trans = OneHotEncoder()
-#         X = df[[col]]
-#         trans.fit(X)
-#         df[col] = trans.transform(X)[col]
-#     return df
+#안씀 - make_imputer_pipe 로 대체
+def ohe(df):
+    df = df.copy()   
+    cols = config_dict['ohe']
+    for col in cols:
+        trans = OneHotEncoder()
+        X = df[[col]]
+        trans.fit(X)
+        df[col] = trans.transform(X)[col]
+    return df
 
 #이상치 탐색을 위한 평균값 구하기
 def find_boundaries(df, variable, distance):
@@ -226,7 +226,7 @@ def find_boundaries(df, variable, distance):
     upper_boundary = df[variable].quantile(0.75) + (IQR * distance)
     return upper_boundary, lower_boundary
 
-# 이상치 제거 함수
+#이상치 제거 함수
 def outlier(df):
     df = df.copy()
     cols = config_dict['outlier']
@@ -236,6 +236,7 @@ def outlier(df):
                     np.where(df[c] < lower_limit, True, False))
         df = df.loc[~(outliers_)]
     return df    
+
 #json 데이터 처리
 def extract_json_data(df):
     """
@@ -274,6 +275,7 @@ def extract_json_data(df):
         df = pd.concat([df, json_df], axis=1)
         df.drop(col, axis=1, inplace=True)
     return df
+
 #데이터 전처리 함수
 def organize_data(df, y_null_exist):
     df = df.copy()
@@ -286,12 +288,12 @@ def organize_data(df, y_null_exist):
     # - categorical: 범주형 변수
 
     #널 비율이 임계치를 넘은 컬럼 명세 작성
-
     for col in cols:
         null_mean = df[col].isnull().mean() # 각 컬럼의 null 비율 계산
         if null_mean >= config_dict['null_threshhold']:
             null_threshhold_cols.append(col)
 
+    #임계치를 넘은 대상을 빼고 다시 df 만듬
     cols_stayed = [c for c in cols if c not in null_threshhold_cols]
     df = df[cols_stayed+[Y_COL]].copy()
 
@@ -308,15 +310,72 @@ def make_train_test(df):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=config_dict['test_size'], random_state=0, stratify=y)
     return X_train, X_test, y_train, y_test
 
+#각 형태별로 파이프라인을 추가하는 형태로 변경
+def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
+    # 연속형 변수와 이산형 변수를 합쳐서 수치형 변수로 처리
+    numberImputer = continuous + discrete
+
+    categoricalImputer = categorical.copy()
+    # One-Hot Encoding 대상 변수 제외
+    categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
+    oheImputer = config_dict['ohe']
+    
+    result={}
+    
+    # 수치형 변수와 범주형 변수가 모두 있는 경우
+    if (len(numberImputer) > 0) & (len(categoricalImputer) > 0):
+        pipe = Pipeline([
+            # 수치형 변수 결측치 대체
+            ("imputer",
+            mm.MeanMedianImputer2(
+                imputation_method=null_impute_type, variables=numberImputer),),
+            # 범주형 변수 결측치 대체
+            ('imputer_cat',
+            mdi.CategoricalImputer(variables=categorical)),
+            # One-Hot Encoding 적용
+            ('categorical_encoder',
+            ce.OneHotEncoder(variables=oheImputer)),
+            # 라벨링 인코딩 적용
+            ('categorical_encoder2',
+            ce.OrdinalEncoder(encoding_method='ordered',
+                variables=categoricalImputer))
+        ])
+    else:
+        # 수치형 변수만 있고 범주형 변수가 없는 경우
+        if (len(numberImputer) > 0) & (len(categoricalImputer) == 0):
+            pipe = Pipeline([
+                # 수치형 변수 결측치만 대체
+                ("imputer",
+                mm.MeanMedianImputer2(
+                    imputation_method=null_impute_type, variables=numberImputer),)
+            ])
+        else:
+            # 범주형 변수만 있고 수치형 변수가 없는 경우
+            if (len(numberImputer) == 0) & (len(categoricalImputer) > 0):
+                pipe = Pipeline([
+                    # 범주형 변수 결측치 대체
+                    ('imputer_cat',
+                    mdi.CategoricalImputer(variables=categorical)),
+                    ('categorical_encoder',
+                    ce.OneHotEncoder(variables=oheImputer)),
+                    ('categorical_encoder2',
+                    ce.OrdinalEncoder(encoding_method='ordered',
+                        variables=categoricalImputer))
+                ])
+            else:
+                pipe = []
+    return pipe
 
 def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 연속형 변수와 이산형 변수를 합쳐서 수치형 변수로 처리
     numberImputer = continuous + discrete
+
     categoricalImputer = categorical.copy()
     # One-Hot Encoding 대상 변수 제외
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
     oheImputer = config_dict['ohe']
     datecolImputer = config_dict['date_col']
+    
     result={}
     
     steps = []
@@ -330,18 +389,21 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
                 )
             )
         )
+
     # 범주형 변수 처리 파이프라인(결측치를 최빈값으로 채움)
     if categorical and len(categorical) > 0:
         steps.append(
             ('categorical_imputer',
             mdi.CategoricalImputer(variables=categorical))
         )
+
     # 원핫인코딩 처리(데이터 종류만큼 컬럼을 만들어 1,0으로 표현)
     if oheImputer and len(oheImputer) > 0:
         steps.append(
             ('onehot_encoder',
             ce.OneHotEncoder(variables=oheImputer))
         )
+
     # 라벨 인코딩 처리(데이터 종류별 고유수치로 변경, male->1, female->2)
     if categoricalImputer and len(categoricalImputer) > 0:
         steps.append(
@@ -363,11 +425,13 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
                 )
             )
         )
+    
     # 파이프라인 생성
     if steps:
         return Pipeline(steps)
     return []
-    
+
+
 def do_imputation(df, pipe):
     train=False
     if(train):
@@ -378,7 +442,7 @@ def do_imputation(df, pipe):
         pipe.fit(xtrain, y_train)
         X_train = pipe.transform(xtrain)
         X_test = pipe.transform(xtest)
-        
+
         # 훈련 세트에 타겟 변수와 'split' 열 추가
         X_train[Y_COL] = y_train        
         X_train['split'] = 'train'
@@ -400,37 +464,41 @@ def do_imputation(df, pipe):
         # 변환된 데이터프레임에 타겟 변수 추가
         X_full[Y_COL] = y_full
         X_full['split'] = 'full'
+        
         return X_full.reset_index(drop=True)
+
 def scaling(df):    
     df = df.copy()
-     if config_dict['scale'] is np.nan:
-        config_dict['scale'] = ['minmax']
-     if config_dict['scale'][0] =='minmax':
+    if config_dict['scale'] is np.nan:
+        config_dict['scale'] = ['minmax']   # default with minmax scaling
+    if config_dict['scale'][0] =='minmax':
         scaler = MinMaxScaler()
         scaler.fit(df)
         return scaler.transform(df)
-     elif config_dict['scale'][0] =='standard':
+    elif config_dict['scale'][0] =='standard':
         scaler = StandardScaler()
         scaler.fit(df)
         return scaler.transform(df)
-     else: 
+    else: 
         scaler = MinMaxScaler()
         scaler.fit(df)
-        return scaler.transform(df)  
-
+        return scaler.transform(df)        
 
 
 if __name__ == '__main__':
     # arv 예1: credit 
     # arv 예2: metro 
+
     try:
         #파라미터
         #folder = sys.argv[1]    # take input with argv parameter
         folder = "loans"    #테스트용
+
         parent = join_abs_path(os.getcwd(), os.pardir)
         conf_file = f'argumet_{folder}.xlsx'      
         configs = pd.read_excel(join_abs_path(f'{parent}/config', conf_file), header=None).set_index(0)        
         config_cols = configs.index.tolist()
+        config_dict = {}
         for c in config_cols:
             config_dict[c] = configs.loc[c].values[0]
             if (type(config_dict[c]) == int) or (type(config_dict[c]) == float):
@@ -438,25 +506,31 @@ if __name__ == '__main__':
             else:
                 config_dict[c] = configs.loc[c].values[0].split(',')
         ori_file_name = config_dict['file_name'][0].split('.')[0]
+        
         #mixed_str의 정수변환
         if config_dict['mixed_str'] is np.nan or len(config_dict['mixed_str']) < 1:
             pass
         else:
             config_dict['mixed_str'] = [eval(i) for i in config_dict['mixed_str']]  #배열의 각 값을 정수형으로 변환
+
         if config_dict['y_col'] is np.nan or len(config_dict['y_col']) != 1:
             print('No Y column exists')
             raise Exception
-            
+
         if config_dict['discrete_thresh_hold'] is np.nan or config_dict['discrete_thresh_hold'] < 0:
             print('discrete_thresh_hold set to default 10')
             config_dict['discrete_thresh_hold'] = 10
+
         Y_COL = config_dict['y_col'][0]
         original_file = join_abs_path(f'{parent}/data/{folder}', config_dict['file_name'][0])
         df_initial = read_data(original_file)
+
         # 1. Label column Encoding
         df_labeld, y_null_exist = y_label_enc(df_initial)
+
         # 1.1json 처리
         df_jsoned = extract_json_data(df_labeld)
+
         # 2. discrete, continuous, categorical 구분작업
         df_organized, discrete, continuous, categorical = organize_data(df_jsoned, y_null_exist)
 
@@ -466,9 +540,10 @@ if __name__ == '__main__':
             discrete, continuous, categorical = discrete_cont(df)
         else:
             df = df_organized.copy()
+
         # null_impute_types 정의
         null_impute_types = config_dict['null_imp']
-        
+
         if null_impute_types is not np.nan:
             for null_impute_type in null_impute_types:
         # 4. pipeline 정의
@@ -488,63 +563,67 @@ if __name__ == '__main__':
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv'))
         # 7.1 imputation 저장
                     df_piped.to_csv(dest_path, index=False)
+
         # 8. discretization(연속형 변수를 범주형으로)
                     if config_dict['discretiser'] is not np.nan:
                         df_piped = discretiser(df_piped, discrete+continuous)
+        
         # 9. Outlier 처리
-                if config_dict['outlier'] is not np.nan: 
-                    df_piped = outlier(df_piped)
-                    df_piped = df_piped.reset_index(drop=True)
+                    if config_dict['outlier'] is not np.nan:    
+                        df_piped = outlier(df_piped)
+                        df_piped = df_piped.reset_index(drop=True)
         # 9.1 데이터 정제 저장
-                dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
-                dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
-                Path(dest_path).mkdir(parents=True, exist_ok=True)
-                dest_path = os.path.join(parent, os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv'))
-                df_piped.to_csv(dest_path, index=False)
+                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
+                    dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
+                    Path(dest_path).mkdir(parents=True, exist_ok=True)
+                    dest_path = os.path.join(parent, os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv'))
+                    df_piped.to_csv(dest_path, index=False)
+
+
         # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
         # 10.1 X_train 스케일링
-                con = df_piped['split'] == 'train'
-                if not df_piped[con].empty:
-                    X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
-                    X_train_scaled = pd.DataFrame(X_train_scaled)
-                    X_train_scaled[Y_COL] = df_piped[con][Y_COL]
-                    X_train_scaled['split'] = df_piped[con]['split']
-                    X_train_scaled.columns = df_piped.columns
-                else:
-                    X_train_scaled = []
+                    con = df_piped['split'] == 'train'
+                    if not df_piped[con].empty:
+                        X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
+                        X_train_scaled = pd.DataFrame(X_train_scaled)
+                        X_train_scaled[Y_COL] = df_piped[con][Y_COL]
+                        X_train_scaled['split'] = df_piped[con]['split']
+                        X_train_scaled.columns = df_piped.columns
+                    else:
+                        X_train_scaled = []
         # 10.2 X_test 스케일링
-                con = df_piped['split'] == 'test'
-                if not df_piped[con].empty:
-                    X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
-                    X_test_scaled = pd.DataFrame(X_test_scaled)
-                    tmp = df_piped.copy().reset_index()
-                    X_test_scaled['index'] = tmp[con]['index'].values
-                    X_test_scaled = X_test_scaled.set_index('index')
-                    X_test_scaled[Y_COL] = df_piped[con][Y_COL]
-                    X_test_scaled['split'] = df_piped[con]['split']
-                    X_test_scaled.columns = df_piped.columns
-                    X_test_scaled.index.name = None
-                    del tmp
-                else:
-                    X_test_scaled = []
+                    con = df_piped['split'] == 'test'
+                    if not df_piped[con].empty:
+                        X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
+                        X_test_scaled = pd.DataFrame(X_test_scaled)
+                        tmp = df_piped.copy().reset_index()
+                        X_test_scaled['index'] = tmp[con]['index'].values
+                        X_test_scaled = X_test_scaled.set_index('index')
+                        X_test_scaled[Y_COL] = df_piped[con][Y_COL]
+                        X_test_scaled['split'] = df_piped[con]['split']
+                        X_test_scaled.columns = df_piped.columns
+                        X_test_scaled.index.name = None
+                        del tmp
+                    else:
+                        X_test_scaled = []
         # 10.3 data frame merge
-                if (len(X_train_scaled) == 0 and len(X_test_scaled) == 0 ):
-                    df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
-                    df_scaled = pd.DataFrame(df_scaled)
-                    df_scaled[Y_COL] = df_piped[Y_COL]
-                    df_scaled['split'] = df_piped['split']
-                    df_scaled.columns = df_piped.columns
-                else :
-                    df_scaled = pd.concat([X_train_scaled, X_test_scaled])
+                    if (len(X_train_scaled) == 0 and len(X_test_scaled) == 0 ):
+                        df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
+                        df_scaled = pd.DataFrame(df_scaled)
+                        df_scaled[Y_COL] = df_piped[Y_COL]
+                        df_scaled['split'] = df_piped['split']
+                        df_scaled.columns = df_piped.columns
+                    else :
+                        df_scaled = pd.concat([X_train_scaled, X_test_scaled])
         # 10.4 scaling 저장
-                dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
-                dest_path = os.path.join(parent, os.path.join(dest_path, 'scaled'))
-                Path(dest_path).mkdir(parents=True, exist_ok=True)
-                dest_path = os.path.join(parent, os.path.join(dest_path, f'scaled_{ori_file_name}_{null_impute_type}.csv'))
-                df_scaled.to_csv(dest_path, index=False)
+                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
+                    dest_path = os.path.join(parent, os.path.join(dest_path, 'scaled'))
+                    Path(dest_path).mkdir(parents=True, exist_ok=True)
+                    dest_path = os.path.join(parent, os.path.join(dest_path, f'scaled_{ori_file_name}_{null_impute_type}.csv'))
+                    df_scaled.to_csv(dest_path, index=False)
         print('Completed.')
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            print('비정상종료', e)
-            traceback.print_exc()
-            print(exc_type, exc_tb.tb_lineno)
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        print('비정상종료', e)
+        traceback.print_exc()
+        print(exc_type, exc_tb.tb_lineno)
