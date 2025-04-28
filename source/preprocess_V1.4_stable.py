@@ -13,7 +13,8 @@ from feature_engine.discretisation import EqualFrequencyDiscretiser
 from feature_engine.discretisation import EqualWidthDiscretiser
 from feature_engine.encoding import OneHotEncoder
 from dateutil.parser import parse
-
+from sklearn.decomposition import PCA
+from sentence_transformers import SentenceTransformer
 #from feature_engine.imputation import MeanMedianImputer
 #from feature_engine.encoding import OneHotEncoder, OrdinalEncoder
 #from feature_engine.discretisation import EqualFrequencyDiscretiser, EqualWidthDiscretiser
