@@ -277,6 +277,10 @@ def extract_json_data(df):
         df.drop(col, axis=1, inplace=True)
     return df
 
+
+
+
+
 #데이터 전처리 함수
 def organize_data(df, y_null_exist):
     df = df.copy()
