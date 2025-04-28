@@ -306,7 +306,61 @@ def organize_data(df, y_null_exist):
         df = df[df[Y_COL] != df[Y_COL].max()].copy()
 
     return df, discrete, continuous, categorical
+# 벡터형 처리
+def vector_to_pca(df, cols):
+    df = df.copy()
+    for col in cols:
+        try:
+            # 문자열 기반 벡터를 숫자형 numpy 배열로 변환
+            df[col] = df[col].apply(lambda x: np.array(eval(x)).astype(float))
+            
+            # 벡터의 차원 확인 (모든 값이 같은 차원을 가져야 함)
+            vector_lengths = df[col].apply(len).unique()
+            if len(vector_lengths) > 1:
+                print(f"Error: Vectors in column '{col}' have inconsistent lengths.")
+                continue  # 다음 열로 진행
 
+            # PCA 적용
+            pca = PCA(n_components=3)  # 예시: 3차원으로 축소, 필요에 따라 조정
+            pca_result = np.array(df[col].to_list())  # DataFrame 열을 numpy 배열로 변환
+            pca_result = pca.fit_transform(pca_result)
+            df[col + '_pca1'] = pca_result[:, 0]
+            df[col + '_pca2'] = pca_result[:, 1]
+            df[col + '_pca3'] = pca_result[:, 2]
+            df = df.drop(columns=[col]) #기존 열 삭제
+
+        except (ValueError, TypeError) as e:
+            print(f"PCA 변환 오류 (열: {col}): {e}")
+            continue  # 오류 발생 시 다음 열 처리
+    return df
+
+# 진법형 처리
+def base_to_decimal(df, cols):
+    df = df.copy()
+    for col in cols:
+        try:
+            df[col] = df[col].apply(lambda x: int(x, 0))  # 0 접두사로 자동 감지
+        except ValueError as e:
+            print(f"Base Conversion 오류 (열: {col}): {e}")
+        except TypeError as e:
+            print(f"Base Conversion 타입 오류 (열: {col}): {e}")
+    return df
+
+# 문장형 처리
+def sentence_to_embedding(df, cols):
+    df = df.copy()
+    model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # 임베딩 모델 로드 (원하는 모델로 변경 가능)
+    for col in cols:
+        try:
+            embeddings = df[col].tolist()
+            embeddings = model.encode(embeddings)
+            num_dimensions = embeddings.shape[1]  # 임베딩 차원 수
+            for i in range(num_dimensions):
+                df[f'{col}_emb_{i+1}'] = embeddings[:, i]
+            df = df.drop(columns=[col]) #기존 열 삭제
+        except Exception as e:
+            print(f"Sentence Embedding 오류 (열: {col}): {e}")
+    return df
 
 def make_train_test(df):
     df = df.copy()
