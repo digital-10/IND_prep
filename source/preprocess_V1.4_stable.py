@@ -13,8 +13,7 @@ from feature_engine.discretisation import EqualFrequencyDiscretiser
 from feature_engine.discretisation import EqualWidthDiscretiser
 from feature_engine.encoding import OneHotEncoder
 from dateutil.parser import parse
-from sklearn.decomposition import PCA
-from sentence_transformers import SentenceTransformer
+
 #from feature_engine.imputation import MeanMedianImputer
 #from feature_engine.encoding import OneHotEncoder, OrdinalEncoder
 #from feature_engine.discretisation import EqualFrequencyDiscretiser, EqualWidthDiscretiser
@@ -277,10 +276,6 @@ def extract_json_data(df):
         df.drop(col, axis=1, inplace=True)
     return df
 
-
-
-
-
 #데이터 전처리 함수
 def organize_data(df, y_null_exist):
     df = df.copy()
@@ -306,61 +301,7 @@ def organize_data(df, y_null_exist):
         df = df[df[Y_COL] != df[Y_COL].max()].copy()
 
     return df, discrete, continuous, categorical
-# 벡터형 처리
-def vector_to_pca(df, cols):
-    df = df.copy()
-    for col in cols:
-        try:
-            # 문자열 기반 벡터를 숫자형 numpy 배열로 변환
-            df[col] = df[col].apply(lambda x: np.array(eval(x)).astype(float))
-            
-            # 벡터의 차원 확인 (모든 값이 같은 차원을 가져야 함)
-            vector_lengths = df[col].apply(len).unique()
-            if len(vector_lengths) > 1:
-                print(f"Error: Vectors in column '{col}' have inconsistent lengths.")
-                continue  # 다음 열로 진행
 
-            # PCA 적용
-            pca = PCA(n_components=3)  # 예시: 3차원으로 축소, 필요에 따라 조정
-            pca_result = np.array(df[col].to_list())  # DataFrame 열을 numpy 배열로 변환
-            pca_result = pca.fit_transform(pca_result)
-            df[col + '_pca1'] = pca_result[:, 0]
-            df[col + '_pca2'] = pca_result[:, 1]
-            df[col + '_pca3'] = pca_result[:, 2]
-            df = df.drop(columns=[col]) #기존 열 삭제
-
-        except (ValueError, TypeError) as e:
-            print(f"PCA 변환 오류 (열: {col}): {e}")
-            continue  # 오류 발생 시 다음 열 처리
-    return df
-
-# 진법형 처리
-def base_to_decimal(df, cols):
-    df = df.copy()
-    for col in cols:
-        try:
-            df[col] = df[col].apply(lambda x: int(x, 0))  # 0 접두사로 자동 감지
-        except ValueError as e:
-            print(f"Base Conversion 오류 (열: {col}): {e}")
-        except TypeError as e:
-            print(f"Base Conversion 타입 오류 (열: {col}): {e}")
-    return df
-
-# 문장형 처리
-def sentence_to_embedding(df, cols):
-    df = df.copy()
-    model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # 임베딩 모델 로드 (원하는 모델로 변경 가능)
-    for col in cols:
-        try:
-            embeddings = df[col].tolist()
-            embeddings = model.encode(embeddings)
-            num_dimensions = embeddings.shape[1]  # 임베딩 차원 수
-            for i in range(num_dimensions):
-                df[f'{col}_emb_{i+1}'] = embeddings[:, i]
-            df = df.drop(columns=[col]) #기존 열 삭제
-        except Exception as e:
-            print(f"Sentence Embedding 오류 (열: {col}): {e}")
-    return df
 
 def make_train_test(df):
     df = df.copy()
@@ -611,27 +552,27 @@ if __name__ == '__main__':
                 if pipe == []:
                     print('no pipe applied')
                 else:
-        # 5. discretization(연속형 변수를 범주형으로)
+        # 6. discretization(연속형 변수를 범주형으로)
                     if config_dict['discretiser'] is not np.nan:
                         df_piped = discretiser(df, discrete+continuous)
-        # 6. imputation thru pipeline
+        # 5. imputation thru pipeline
                     df_piped = do_imputation(df, pipe)
                     dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'{dest_path}/imputed'))
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
                     dest_path = os.path.join(parent, os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv'))
-        # 7.1 imputation 저장
+        # 5.1 imputation 저장
                     df_piped.to_csv(dest_path, index=False)
 
-        # 8. discretization(연속형 변수를 범주형으로)
+        # 6. discretization(연속형 변수를 범주형으로)
                     if config_dict['discretiser'] is not np.nan:
                         df_piped = discretiser(df_piped, discrete+continuous)
         
-        # 9. Outlier 처리
+        # 7. Outlier 처리
                     if config_dict['outlier'] is not np.nan:    
                         df_piped = outlier(df_piped)
                         df_piped = df_piped.reset_index(drop=True)
-        # 9.1 데이터 정제 저장
+        # 7.1 데이터 정제 저장
                     dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                     dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
@@ -639,8 +580,8 @@ if __name__ == '__main__':
                     df_piped.to_csv(dest_path, index=False)
 
 
-        # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
-        # 10.1 X_train 스케일링
+        # 8. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
+        # 8.1 X_train 스케일링
                     con = df_piped['split'] == 'train'
                     if not df_piped[con].empty:
                         X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
@@ -650,7 +591,7 @@ if __name__ == '__main__':
                         X_train_scaled.columns = df_piped.columns
                     else:
                         X_train_scaled = []
-        # 10.2 X_test 스케일링
+        # 8.2 X_test 스케일링
                     con = df_piped['split'] == 'test'
                     if not df_piped[con].empty:
                         X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
@@ -665,7 +606,7 @@ if __name__ == '__main__':
                         del tmp
                     else:
                         X_test_scaled = []
-        # 10.3 data frame merge
+        # 8.3 data frame merge
                     if (len(X_train_scaled) == 0 and len(X_test_scaled) == 0 ):
                         df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
                         df_scaled = pd.DataFrame(df_scaled)
@@ -674,7 +615,7 @@ if __name__ == '__main__':
                         df_scaled.columns = df_piped.columns
                     else :
                         df_scaled = pd.concat([X_train_scaled, X_test_scaled])
-        # 10.4 scaling 저장
+        # 8.4 scaling 저장
                     dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
                     dest_path = os.path.join(parent, os.path.join(dest_path, 'scaled'))
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
