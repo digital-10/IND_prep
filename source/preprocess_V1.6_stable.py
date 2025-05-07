@@ -639,53 +639,45 @@ if __name__ == '__main__':
                         df_piped = outlier(df_piped)
                         df_piped = df_piped.reset_index(drop=True)
         # 9.1 데이터 정제 저장
-                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
-                    dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
+                    dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'trans')
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
-                    dest_path = os.path.join(parent, os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv'))
+                    dest_path = os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv')
                     df_piped.to_csv(dest_path, index=False)
 
 
         # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
         # 10.1 X_train 스케일링
                     con = df_piped['split'] == 'train'
+                    X_train_scaled = []
                     if not df_piped[con].empty:
-                        X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
-                        X_train_scaled = pd.DataFrame(X_train_scaled)
+                        X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL, 'split']))
+                        X_train_scaled = pd.DataFrame(X_train_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
                         X_train_scaled[Y_COL] = df_piped[con][Y_COL]
                         X_train_scaled['split'] = df_piped[con]['split']
-                        X_train_scaled.columns = df_piped.columns
-                    else:
-                        X_train_scaled = []
+                    
         # 10.2 X_test 스케일링
                     con = df_piped['split'] == 'test'
+                    X_test_scaled = []
                     if not df_piped[con].empty:
-                        X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
-                        X_test_scaled = pd.DataFrame(X_test_scaled)
+                        X_test_scaled = scaling(df_piped[con].drop(columns=[Y_COL, 'split']))
+                        X_test_scaled = pd.DataFrame(X_test_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
                         tmp = df_piped.copy().reset_index()
                         X_test_scaled['index'] = tmp[con]['index'].values
                         X_test_scaled = X_test_scaled.set_index('index')
                         X_test_scaled[Y_COL] = df_piped[con][Y_COL]
                         X_test_scaled['split'] = df_piped[con]['split']
-                        X_test_scaled.columns = df_piped.columns
                         X_test_scaled.index.name = None
                         del tmp
-                    else:
-                        X_test_scaled = []
-        # 10.3 data frame merge
-                    if (len(X_train_scaled) == 0 and len(X_test_scaled) == 0 ):
-                        df_scaled = scaling(df_piped.drop(columns=[Y_COL,'split']))
-                        df_scaled = pd.DataFrame(df_scaled)
+                    if not X_train_scaled and not X_test_scaled:
+                        df_scaled = scaling(df_piped.drop(columns=[Y_COL, 'split']))
+                        df_scaled = pd.DataFrame(df_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
                         df_scaled[Y_COL] = df_piped[Y_COL]
                         df_scaled['split'] = df_piped['split']
-                        df_scaled.columns = df_piped.columns
-                    else :
+                    else:
                         df_scaled = pd.concat([X_train_scaled, X_test_scaled])
-        # 10.4 scaling 저장
-                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
-                    dest_path = os.path.join(parent, os.path.join(dest_path, 'scaled'))
+                    dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'scaled')
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
-                    dest_path = os.path.join(parent, os.path.join(dest_path, f'scaled_{ori_file_name}_{null_impute_type}.csv'))
+                    dest_path = os.path.join(dest_path, f'scaled_{ori_file_name}_{null_impute_type}.csv')
                     df_scaled.to_csv(dest_path, index=False)
         print('Completed.')
     except Exception as e:
