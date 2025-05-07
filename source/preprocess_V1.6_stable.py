@@ -461,7 +461,7 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 연속형 변수와 이산형 변수를 합쳐서 수치형 변수로 처리
     numberImputer = continuous + discrete
 
-    # categoricalImputer = categorical.copy()
+    categoricalImputer = categorical.copy()
     # One-Hot Encoding 대상 변수 제외
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
     oheImputer = config_dict['ohe']
@@ -548,7 +548,7 @@ def scaling(df):
     else:
         scaler = StandardScaler()
     scaler.fit(df)
-    return scaler.transform(df), numeric_cols
+    return scaler.transform(df)
 
 
 if __name__ == '__main__':
@@ -567,10 +567,11 @@ if __name__ == '__main__':
         config_dict = {}
         for c in config_cols:
             config_dict[c] = configs.loc[c].values[0]
-            if isinstance(config_dict[c], (int, float)):
-                pass
-            else:
-                config_dict[c] = configs.loc[c].values[0].split(',')
+            if isinstance(config_dict[c], str) and c in ['sentence_col', 'vector_col', 'non_dec_col', 'date_col']:
+                config_dict[c] = [config_dict[c]] if config_dict[c] and not pd.isna(config_dict[c]) else []
+            elif isinstance(config_dict[c], str):
+                config_dict[c] = config_dict[c].split(',') if config_dict[c] and not pd.isna(config_dict[c]) else []
+        print(f"Config loaded: {config_dict}")
         ori_file_name = config_dict['file_name'][0].split('.')[0]
         
         #mixed_str의 정수변환
@@ -608,7 +609,7 @@ if __name__ == '__main__':
 
 
         # 2. 데이터 정리 및 변수 분류
-        df_organized, discrete, continuous, categorical = organize_data(df_jsoned, y_null_exist)
+        df_organized, discrete, continuous, categorical = organize_data(df_sentenced, y_null_exist)
         
 
         # 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
@@ -652,7 +653,6 @@ if __name__ == '__main__':
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
                     dest_path = os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv')
                     df_piped.to_csv(dest_path, index=False)
-                    print(f"Before scaling: {df_piped.drop(columns=[Y_COL, 'split']).dtypes}")
 
 
         # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
@@ -661,7 +661,7 @@ if __name__ == '__main__':
                     X_train_scaled = []
                     if not df_piped[con].empty:
                         X_train_scaled,numeric_cols= scaling(df_piped[con].drop(columns=[Y_COL, 'split']))
-                        X_train_scaled = pd.DataFrame(X_train_scaled, columns=numeric_cols)
+                        X_train_scaled = pd.DataFrame(X_train_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
                         X_train_scaled[Y_COL] = df_piped[con][Y_COL]
                         X_train_scaled['split'] = df_piped[con]['split']
         # 10.2 X_test 스케일링
