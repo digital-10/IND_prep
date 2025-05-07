@@ -564,10 +564,10 @@ if __name__ == '__main__':
         config_dict = {}
         for c in config_cols:
             config_dict[c] = configs.loc[c].values[0]
-            if isinstance(config_dict[c], str) and c in ['sentence_col', 'vector_col', 'non_dec_col', 'date_col']:
-                config_dict[c] = [config_dict[c]] if config_dict[c] and not pd.isna(config_dict[c]) else []
-            elif isinstance(config_dict[c], str):
-                config_dict[c] = config_dict[c].split(',') if config_dict[c] and not pd.isna(config_dict[c]) else []
+            if (type(config_dict[c]) == int) or (type(config_dict[c]) == float):
+                pass
+            else:
+                config_dict[c] = configs.loc[c].values[0].split(',')
         ori_file_name = config_dict['file_name'][0].split('.')[0]
         
         #mixed_str의 정수변환
