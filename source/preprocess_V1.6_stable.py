@@ -465,9 +465,8 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # One-Hot Encoding 대상 변수 제외
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
     oheImputer = config_dict['ohe']
-    datecolImputer = config_dict['date_col']
-    vectorImputer = config_dict.get('vector_col', [])
-
+    datecolImputer = config_dict['date_col'] if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else []
+    vectorImputer = config_dict.get('vector_col', []) if config_dict.get('vector_col', []) and not pd.isna(config_dict.get('vector_col', [])[0]) else []
     # result={}
     
     steps = []
@@ -489,6 +488,9 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 시계열 데이터 처리(날짜형에서 연월일 추출, 시간형에서 타임델타 추출)
     if datecolImputer:
         steps.append(('temporal_feature_engineering', tf.DateFeatureTransformer2(variables=datecolImputer, features=['year', 'month', 'day', 'time_seconds'], drop_original=True)))
+        for col in datecolImputer:
+            if f'{col}_time_seconds' in df_piped.columns:
+                df_piped[f'{col}_time_seconds'] = df_piped[f'{col}_time_seconds'].astype(float)
     # 벡터형 데이터 처리
     if vectorImputer:
         steps.append(('vector_pca', VectorPCAProcessor(variables=vectorImputer, n_components=config_dict.get('pca_components', 3))))
@@ -548,7 +550,7 @@ def scaling(df):
     else:
         scaler = StandardScaler()
     scaler.fit(df)
-    return scaler.transform(df)
+    return scaler.transform(df), numeric_cols
 
 
 if __name__ == '__main__':
@@ -586,30 +588,30 @@ if __name__ == '__main__':
         Y_COL = config_dict['y_col'][0]
         original_file = join_abs_path(f'{parent}/data/{folder}', config_dict['file_name'][0])
         df_initial = read_data(original_file)
-        print(f"Initial columns: {df_initial.columns.tolist()}")
+
 
         # 1. Label column Encoding
         df_labeld, y_null_exist = y_label_enc(df_initial)
-        print(f"After y_label_enc: {df_labeld.columns.tolist()}")
+
 
 
         # 1.1json 처리
         df_jsoned = extract_json_data(df_labeld)
-        print(f"After extract_json_data: {df_jsoned.columns.tolist()}")
+
 
         # 1.2 진법형 처리
         df_non_dec = convert_non_decimal(df_jsoned)
-        print(f"After convert_non_decimal: {df_non_dec.columns.tolist()}")
-        print(f"Data types after convert_non_decimal: {df_non_dec.dtypes}")
+  
+
 
         # 1.3 문장형 처리
         df_sentenced = sentence_to_vector(df_non_dec)
-        print(f"After sentence_to_vector: {df_sentenced.columns.tolist()}")
+    
 
 
         # 2. 데이터 정리 및 변수 분류
         df_organized, discrete, continuous, categorical = organize_data(df_jsoned, y_null_exist)
-        print(f"After organize_data: {df_organized.columns.tolist()}")
+        
 
         # 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
         if config_dict['mixed'] is not np.nan:
@@ -660,8 +662,8 @@ if __name__ == '__main__':
                     con = df_piped['split'] == 'train'
                     X_train_scaled = []
                     if not df_piped[con].empty:
-                        X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL, 'split']))
-                        X_train_scaled = pd.DataFrame(X_train_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
+                        X_train_scaled,numeric_cols= scaling(df_piped[con].drop(columns=[Y_COL, 'split']))
+                        X_train_scaled = pd.DataFrame(X_train_scaled, columns=numeric_cols)
                         X_train_scaled[Y_COL] = df_piped[con][Y_COL]
                         X_train_scaled['split'] = df_piped[con]['split']
         # 10.2 X_test 스케일링
