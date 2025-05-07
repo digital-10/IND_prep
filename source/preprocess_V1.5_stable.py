@@ -295,7 +295,7 @@ def apply_pca(df):
         return df # 설정 없으면 원본 반환
 
     pca_cols = config_dict['pca_col']
-    n_components = int(config_dict['pca_n_components'][0]) # 설정 파일에서 개수 읽기 (첫번째 값 사용)
+    n_components = int(config_dict['pca_n_components']) # 설정 파일에서 개수 읽기 (첫번째 값 사용)
 
     for col in pca_cols:
         if col not in df.columns:
