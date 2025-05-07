@@ -121,13 +121,10 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
         # 날짜형으로 변환 가능한지 확인
         for var in self.variables:
             try:
-                X[var] = pd.to_datetime(X[var], errors='coerce')  # errors='coerce' 추가
-                if (X[var].dt.date == pd.Timestamp('1900-01-01').date()).all() and \
-                   (X[var].dt.time != pd.Timestamp('00:00:00').time()).any():
-                    self.time_columns.append(var)  # 시간만 포함하는 컬럼 저장
+                pd.to_datetime(X[var])
             except Exception as e:
                 raise ValueError(f"Column {var} cannot be converted to datetime: {str(e)}")
-
+                
         return self
     
     def transform(self, X):
