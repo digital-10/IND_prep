@@ -568,7 +568,6 @@ if __name__ == '__main__':
                 config_dict[c] = [config_dict[c]] if config_dict[c] and not pd.isna(config_dict[c]) else []
             elif isinstance(config_dict[c], str):
                 config_dict[c] = config_dict[c].split(',') if config_dict[c] and not pd.isna(config_dict[c]) else []
-        print(f"Config loaded: {config_dict}")
         ori_file_name = config_dict['file_name'][0].split('.')[0]
         
         #mixed_str의 정수변환
