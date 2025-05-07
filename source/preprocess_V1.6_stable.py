@@ -94,17 +94,17 @@ def discrete_cont(df):
     # 원본 데이터 보존을 위해 카피하여 작업함
     data = df.copy()
     # 날짜형, 시간형
-    if (config_dict['date_col'] is np.nan):
-        date_cols_len = 0
-    else:
-        date_cols_len = len(config_dict['date_col'])
+    date_cols_len = len(config_dict['date_col']) if not pd.isna(config_dict['date_col']) else 0
     
     # json형
-    if (config_dict['dict_col'] is np.nan):
-        dict_cols_len = 0
-    else:
-        dict_cols_len = len(config_dict['dict_col'])
-    
+    dict_cols_len = len(config_dict['dict_col']) if not pd.isna(config_dict['dict_col']) else 0
+    # 벡터형
+    vector_cols_len = len(config_dict['vector_col']) if not pd.isna(config_dict['vector_col']) else 0
+    # 진법형
+    non_dec_cols_len = len(config_dict['non_dec_col']) if not pd.isna(config_dict['non_dec_col']) else 0
+    # 문장형
+    sentence_cols_len = len(config_dict['sentence_col']) if not pd.isna(config_dict['sentence_col']) else 0
+
     # Case 1 : 날짜 컬럼이 없으면
     if date_cols_len < 1:
         # 이산형 변수: 숫자형이면서 고유값이 임계값보다 적은 경우
@@ -117,21 +117,33 @@ def discrete_cont(df):
     else:
         # 이산형 변수: 숫자형이면서 고유값이 임계값보다 적은 경우 및 날자컬럼이 아닌 경우
         discrete = [var for var in data.columns if
-                    data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] and var not in config_dict['dict_col'] and data[var].nunique() < config_dict['discrete_thresh_hold']]
+                    data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] 
+                    and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
+                    and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
+                    and data[var].nunique() < config_dict['discrete_thresh_hold']]
         # 연속형 변수: 숫자형이면서 이산형이 아닌 경우 및 날자컬럼이 아닌 경우
         continuous = [var for var in data.columns if
-                      data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] and var not in config_dict['dict_col'] and var not in discrete]
+                      data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] 
+                      and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
+                      and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
+                      and var not in discrete]
 
     # categorical
     # 객체형(문자열) 데이터이면서 타겟변수가 아닌 경우
-    categorical = [var for var in data.columns if data[var].dtype == 'O' and var != Y_COL and var not in config_dict['date_col'] and var not in config_dict['dict_col']]
+    categorical = [var for var in data.columns if
+                   data[var].dtype == 'O' and var != Y_COL and var not in config_dict['date_col']
+                   and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
+                   and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']]
     
     # 전처리 데이터 타입 확인용
-    print('There are {} date_time variables'.format(date_cols_len))
-    print('There are {} dict variables'.format(dict_cols_len))
-    print('There are {} discrete variables'.format(len(discrete)))
-    print('There are {} continuous variables'.format(len(continuous)))
-    print('There are {} categorical variables'.format(len(categorical)))
+    print(f'There are {date_cols_len} date_time variables')
+    print(f'There are {dict_cols_len} dict variables')
+    print(f'There are {vector_cols_len} vector variables')
+    print(f'There are {non_dec_cols_len} non-decimal variables')
+    print(f'There are {sentence_cols_len} sentence variables')
+    print(f'There are {len(discrete)} discrete variables')
+    print(f'There are {len(continuous)} continuous variables')
+    print(f'There are {len(categorical)} categorical variables')
     return discrete, continuous, categorical
 
 
@@ -276,6 +288,78 @@ def extract_json_data(df):
         df = pd.concat([df, json_df], axis=1)
         df.drop(col, axis=1, inplace=True)
     return df
+# 새로운 클래스: 벡터형 → 소수형 (PCA)
+class VectorPCAProcessor:
+    def __init__(self, variables, n_components=3):
+        self.variables = variables
+        self.n_components = n_components
+        self.pca = PCA(n_components=n_components)
+    
+    def fit(self, X, y=None):
+        for col in self.variables:
+            # 벡터형 데이터를 numpy 배열로 변환
+            vectors = [eval(vec) if isinstance(vec, str) else vec for vec in X[col]]
+            vectors = np.array(vectors)
+            self.pca.fit(vectors)
+        return self
+    
+    def transform(self, X):
+        X = X.copy()
+        for col in self.variables:
+            # 벡터형 데이터를 numpy 배열로 변환
+            vectors = [eval(vec) if isinstance(vec, str) else vec for vec in X[col]]
+            vectors = np.array(vectors)
+            # PCA 적용
+            transformed = self.pca.transform(vectors)
+            # 새로운 컬럼 추가
+            for i in range(self.n_components):
+                X[f'{col}_pca_{i}'] = transformed[:, i]
+            # 원본 컬럼 삭제
+            X.drop(columns=[col], inplace=True)
+        return X
+
+# 새로운 함수: 진법형 → 정수형
+def convert_non_decimal(df):
+    df = df.copy()
+    cols = config_dict.get('non_dec_col', [])
+    if not cols or pd.isna(cols):
+        return df
+    for col in cols:
+        def parse_non_decimal(val):
+            try:
+                if isinstance(val, str):
+                    val = val.lower().strip()
+                    if val.startswith('0b'):
+                        return int(val, 2)  # 2진수
+                    elif val.startswith('0x'):
+                        return int(val, 16)  # 16진수
+                    else:
+                        return int(val)  # 10진수 가정
+                return val
+            except (ValueError, TypeError):
+                return np.nan
+        df[f'dec_{col}'] = df[col].apply(parse_non_decimal)
+        df.drop(columns=[col], inplace=True)
+    cols = position_Y_COL(list(df.columns))
+    return df[cols]
+
+# 새로운 함수: 문장형 → 벡터형
+def sentence_to_vector(df):
+    df = df.copy()
+    cols = config_dict.get('sentence_col', [])
+    if not cols or pd.isna(cols):
+        return df
+    model_name = config_dict.get('embedding_model', 'sentence-transformers/all-MiniLM-L6-v2')
+    model = SentenceTransformer(model_name)
+    for col in cols:
+        sentences = df[col].fillna('').tolist()
+        embeddings = model.encode(sentences, show_progress_bar=False)
+        # 벡터를 새로운 컬럼으로 추가
+        for i in range(embeddings.shape[1]):
+            df[f'{col}_vec_{i}'] = embeddings[:, i]
+        df.drop(columns=[col], inplace=True)
+    cols = position_Y_COL(list(df.columns))
+    return df[cols]
 
 
 
@@ -377,61 +461,39 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
     oheImputer = config_dict['ohe']
     datecolImputer = config_dict['date_col']
-    
-    result={}
+    vectorImputer = config_dict.get('vector_col', []) #벡터 추가
+
+    # result={}
     
     steps = []
     # 수치형 변수 처리 파이프라인(결측치를 null_impute_type값[mean,median,max,min]에 따라 채움)
-    if numberImputer and len(numberImputer) > 0:
-        steps.append(
-            ("numeric_imputer", 
-            mm.MeanMedianImputer2(
-                imputation_method=null_impute_type,
-                variables=numberImputer
-                )
-            )
-        )
+    if numberImputer:
+        steps.append(("numeric_imputer", mm.MeanMedianImputer2(imputation_method=null_impute_type, variables=numberImputer)))
 
     # 범주형 변수 처리 파이프라인(결측치를 최빈값으로 채움)
-    if categorical and len(categorical) > 0:
-        steps.append(
-            ('categorical_imputer',
-            mdi.CategoricalImputer(variables=categorical))
-        )
+    if categorical:
+        steps.append(('categorical_imputer', mdi.CategoricalImputer(variables=categorical)))
 
     # 원핫인코딩 처리(데이터 종류만큼 컬럼을 만들어 1,0으로 표현)
-    if oheImputer and len(oheImputer) > 0:
-        steps.append(
-            ('onehot_encoder',
-            ce.OneHotEncoder(variables=oheImputer))
-        )
+    if oheImputer:
+        steps.append(('onehot_encoder', ce.OneHotEncoder(variables=oheImputer)))
 
     # 라벨 인코딩 처리(데이터 종류별 고유수치로 변경, male->1, female->2)
-    if categoricalImputer and len(categoricalImputer) > 0:
-        steps.append(
-            ('label_encoder',
-            ce.OrdinalEncoder(
-                encoding_method='ordered',
-                variables=categoricalImputer
-                )
-            )
-        )
+    if categoricalImputer:
+        steps.append(('label_encoder', ce.OrdinalEncoder(encoding_method='ordered', variables=categoricalImputer)))
+
+
     # 시계열 데이터 처리(날짜형에서 연월일 추출, 시간형에서 타임델타 추출)
-    if datecolImputer and len(datecolImputer) > 0:
-        steps.append(
-            ('temporal_feature_engineering',
-            tf.DateFeatureTransformer2(
-                variables=datecolImputer,
-                features=['year', 'month', 'day', 'time_seconds'],
-                drop_original=True
-                )
-            )
-        )
+    if datecolImputer:
+        steps.append(('temporal_feature_engineering', tf.DateFeatureTransformer2(variables=datecolImputer, features=['year', 'month', 'day', 'time_seconds'], drop_original=True)))
+    
+    # 벡터 데이터 처리
+    if vectorImputer:
+        steps.append(('vector_pca', VectorPCAProcessor(variables=vectorImputer, n_components=config_dict.get('pca_components', 3))))
+        
     
     # 파이프라인 생성
-    if steps:
-        return Pipeline(steps)
-    return []
+    return Pipeline(steps) if steps else []
 
 
 def do_imputation(df, pipe):
@@ -503,16 +565,14 @@ if __name__ == '__main__':
         config_dict = {}
         for c in config_cols:
             config_dict[c] = configs.loc[c].values[0]
-            if (type(config_dict[c]) == int) or (type(config_dict[c]) == float):
+            if isinstance(config_dict[c], (int, float)):
                 pass
             else:
                 config_dict[c] = configs.loc[c].values[0].split(',')
         ori_file_name = config_dict['file_name'][0].split('.')[0]
         
         #mixed_str의 정수변환
-        if config_dict['mixed_str'] is np.nan or len(config_dict['mixed_str']) < 1:
-            pass
-        else:
+        if config_dict['mixed_str'] is not np.nan and len(config_dict['mixed_str']) > 0:
             config_dict['mixed_str'] = [eval(i) for i in config_dict['mixed_str']]  #배열의 각 값을 정수형으로 변환
 
         if config_dict['y_col'] is np.nan or len(config_dict['y_col']) != 1:
@@ -533,8 +593,14 @@ if __name__ == '__main__':
         # 1.1json 처리
         df_jsoned = extract_json_data(df_labeld)
 
-        # 2. discrete, continuous, categorical 구분작업
-        df_organized, discrete, continuous, categorical = organize_data(df_jsoned, y_null_exist)
+        # 1.2 진법형 처리
+        df_non_dec = convert_non_decimal(df_jsoned)
+
+        # 1.3 문장형 처리
+        df_sentenced = sentence_to_vector(df_non_dec)
+
+        # 2. 데이터 정리 및 변수 분류
+        df_organized, discrete, continuous, categorical = organize_data(df_sentenced, y_null_exist)
 
         # 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
         if config_dict['mixed'] is not np.nan:
@@ -559,11 +625,9 @@ if __name__ == '__main__':
                         df_piped = discretiser(df, discrete+continuous)
         # 6. imputation thru pipeline
                     df_piped = do_imputation(df, pipe)
-                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
-                    dest_path = os.path.join(parent, os.path.join(dest_path, f'{dest_path}/imputed'))
+                    dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'imputed')
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
-                    dest_path = os.path.join(parent, os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv'))
-        # 7.1 imputation 저장
+                    dest_path = os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv')
                     df_piped.to_csv(dest_path, index=False)
 
         # 8. discretization(연속형 변수를 범주형으로)
