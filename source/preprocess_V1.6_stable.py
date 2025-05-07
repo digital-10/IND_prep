@@ -581,9 +581,13 @@ if __name__ == '__main__':
         # 1.1json 처리
         df_jsoned = extract_json_data(df_labeld)
 
-        
+        # 1.2 진법형 처리
+        df_non_dec = convert_non_decimal(df_jsoned)
 
-        # 2. discrete, continuous, categorical 구분작업
+        # 1.3 문장형 처리
+        df_sentenced = sentence_to_vector(df_non_dec)
+
+        # 2. 데이터 정리 및 변수 분류
         df_organized, discrete, continuous, categorical = organize_data(df_jsoned, y_null_exist)
 
         # 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
@@ -609,11 +613,9 @@ if __name__ == '__main__':
                         df_piped = discretiser(df, discrete+continuous)
         # 6. imputation thru pipeline
                     df_piped = do_imputation(df, pipe)
-                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
-                    dest_path = os.path.join(parent, os.path.join(dest_path, f'{dest_path}/imputed'))
+                    dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'imputed')
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
-                    dest_path = os.path.join(parent, os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv'))
-        # 7.1 imputation 저장
+                    dest_path = os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv')
                     df_piped.to_csv(dest_path, index=False)
 
         # 8. discretization(연속형 변수를 범주형으로)
@@ -625,16 +627,16 @@ if __name__ == '__main__':
                         df_piped = outlier(df_piped)
                         df_piped = df_piped.reset_index(drop=True)
         # 9.1 데이터 정제 저장
-                    dest_path = os.path.join(parent, os.path.join('data_preprocessed', f'{folder}'))
-                    dest_path = os.path.join(parent, os.path.join(dest_path, 'trans'))
+                    dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'trans')
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
-                    dest_path = os.path.join(parent, os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv'))
+                    dest_path = os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv')
                     df_piped.to_csv(dest_path, index=False)
 
 
         # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
         # 10.1 X_train 스케일링
                     con = df_piped['split'] == 'train'
+                    X_train_scaled = []
                     if not df_piped[con].empty:
                         X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
                         X_train_scaled = pd.DataFrame(X_train_scaled)
