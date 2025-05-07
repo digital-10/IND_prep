@@ -94,16 +94,16 @@ def discrete_cont(df):
     # 원본 데이터 보존을 위해 카피하여 작업함
     data = df.copy()
     # 날짜형, 시간형
-    date_cols_len = len(config_dict['date_col']) if not pd.isna(config_dict['date_col']) else 0
+    date_cols_len = len(config_dict['date_col']) if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else 0
     
     # json형
-    dict_cols_len = len(config_dict['dict_col']) if not pd.isna(config_dict['dict_col']) else 0
+    dict_cols_len = len(config_dict['dict_col']) if config_dict['dict_col'] and not pd.isna(config_dict['dict_col'][0]) else 0
     # 벡터형
-    vector_cols_len = len(config_dict['vector_col']) if not pd.isna(config_dict['vector_col']) else 0
+    vector_cols_len = len(config_dict['vector_col']) if config_dict['vector_col'] and not pd.isna(config_dict['vector_col'][0]) else 0
     # 진법형
-    non_dec_cols_len = len(config_dict['non_dec_col']) if not pd.isna(config_dict['non_dec_col']) else 0
+    non_dec_cols_len = len(config_dict['non_dec_col']) if config_dict['non_dec_col'] and not pd.isna(config_dict['non_dec_col'][0]) else 0
     # 문장형
-    sentence_cols_len = len(config_dict['sentence_col']) if not pd.isna(config_dict['sentence_col']) else 0
+    sentence_cols_len = len(config_dict['sentence_col']) if config_dict['sentence_col'] and not pd.isna(config_dict['sentence_col'][0]) else 0
 
     # Case 1 : 날짜 컬럼이 없으면
     if date_cols_len < 1:
@@ -117,13 +117,13 @@ def discrete_cont(df):
     else:
         # 이산형 변수: 숫자형이면서 고유값이 임계값보다 적은 경우 및 날자컬럼이 아닌 경우
         discrete = [var for var in data.columns if
-                    data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] 
+                    data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col']
                     and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
                     and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
                     and data[var].nunique() < config_dict['discrete_thresh_hold']]
         # 연속형 변수: 숫자형이면서 이산형이 아닌 경우 및 날자컬럼이 아닌 경우
         continuous = [var for var in data.columns if
-                      data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col'] 
+                      data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col']
                       and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
                       and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
                       and var not in discrete]
@@ -460,9 +460,8 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # One-Hot Encoding 대상 변수 제외
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
     oheImputer = config_dict['ohe']
-    datecolImputer = config_dict['date_col']
-    vectorImputer = config_dict.get('vector_col', []) #벡터 추가
-
+    datecolImputer =  config_dict['date_col'] if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else []
+    vectorImputer = config_dict.get('vector_col', []) if config_dict.get('vector_col', []) and not pd.isna(config_dict.get('vector_col', [])[0]) else []
     # result={}
     
     steps = []
@@ -565,10 +564,11 @@ if __name__ == '__main__':
         config_dict = {}
         for c in config_cols:
             config_dict[c] = configs.loc[c].values[0]
-            if isinstance(config_dict[c], (int, float)):
-                pass
-            else:
-                config_dict[c] = configs.loc[c].values[0].split(',')
+            if isinstance(config_dict[c], str) and c in ['sentence_col', 'vector_col', 'non_dec_col', 'date_col']:
+                config_dict[c] = [config_dict[c]] if config_dict[c] and not pd.isna(config_dict[c]) else []
+            elif isinstance(config_dict[c], str):
+                config_dict[c] = config_dict[c].split(',') if config_dict[c] and not pd.isna(config_dict[c]) else []
+        print(f"Config loaded: {config_dict}")
         ori_file_name = config_dict['file_name'][0].split('.')[0]
         
         #mixed_str의 정수변환
