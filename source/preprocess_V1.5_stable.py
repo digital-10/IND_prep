@@ -394,7 +394,9 @@ def apply_sentence_embedding(df):
         return df
 
     sentence_cols = config_dict['sentence_col']
-    model_name = config_dict.get('sentence_model', ['paraphrase-MiniLM-L6-v2'])[0] # 설정 없으면 기본값
+    model_name = config_dict.get('sentence_model') # 설정 없으면 기본값
+    if pd.isna(model_name) or not model_name:
+        model_name = 'paraphrase-MiniLM-L6-v2'
 
     model = get_sentence_transformer_model(model_name)
     if model is None:
