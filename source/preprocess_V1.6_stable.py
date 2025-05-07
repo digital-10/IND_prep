@@ -461,14 +461,15 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 연속형 변수와 이산형 변수를 합쳐서 수치형 변수로 처리
     numberImputer = continuous + discrete
 
-    categoricalImputer = categorical.copy()
+    # categoricalImputer = categorical.copy()
     # One-Hot Encoding 대상 변수 제외
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe']) ]
     oheImputer = config_dict['ohe']
     datecolImputer = config_dict['date_col'] if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else []
     vectorImputer = config_dict.get('vector_col', []) if config_dict.get('vector_col', []) and not pd.isna(config_dict.get('vector_col', [])[0]) else []
     # result={}
-    
+    print(f"Date columns for imputation: {datecolImputer}")  # 디버깅 출력
+
     steps = []
     # 수치형 변수 처리 파이프라인(결측치를 null_impute_type값[mean,median,max,min]에 따라 채움)
     if numberImputer:
@@ -488,9 +489,6 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 시계열 데이터 처리(날짜형에서 연월일 추출, 시간형에서 타임델타 추출)
     if datecolImputer:
         steps.append(('temporal_feature_engineering', tf.DateFeatureTransformer2(variables=datecolImputer, features=['year', 'month', 'day', 'time_seconds'], drop_original=True)))
-        for col in datecolImputer:
-            if f'{col}_time_seconds' in df_piped.columns:
-                df_piped[f'{col}_time_seconds'] = df_piped[f'{col}_time_seconds'].astype(float)
     # 벡터형 데이터 처리
     if vectorImputer:
         steps.append(('vector_pca', VectorPCAProcessor(variables=vectorImputer, n_components=config_dict.get('pca_components', 3))))
