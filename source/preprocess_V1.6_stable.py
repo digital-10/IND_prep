@@ -97,10 +97,10 @@ def discrete_cont(df):
     date_cols_len = len(config_dict['date_col']) if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else 0
     
     # json형
-    dict_cols_len = len(config_dict['dict_col']) if not pd.isna(config_dict['dict_col']) else 0
-    vector_cols_len = len(config_dict['vector_col']) if not pd.isna(config_dict['vector_col']) else 0
-    non_dec_cols_len = len(config_dict['non_dec_col']) if not pd.isna(config_dict['non_dec_col']) else 0
-    sentence_cols_len = len(config_dict['sentence_col']) if not pd.isna(config_dict['sentence_col']) else 0
+    dict_cols_len = len(config_dict['dict_col']) if config_dict['dict_col'] and not pd.isna(config_dict['dict_col'][0]) else 0
+    vector_cols_len = len(config_dict['vector_col']) if config_dict['vector_col'] and not pd.isna(config_dict['vector_col'][0]) else 0
+    non_dec_cols_len = len(config_dict['non_dec_col']) if config_dict['non_dec_col'] and not pd.isna(config_dict['non_dec_col'][0]) else 0
+    sentence_cols_len = len(config_dict['sentence_col']) if config_dict['sentence_col'] and not pd.isna(config_dict['sentence_col'][0]) else 0
     # Case 1 : 날짜 컬럼이 없으면
     if date_cols_len < 1:
         # 이산형 변수: 숫자형이면서 고유값이 임계값보다 적은 경우
@@ -468,7 +468,6 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     datecolImputer = config_dict['date_col'] if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else []
     vectorImputer = config_dict.get('vector_col', []) if config_dict.get('vector_col', []) and not pd.isna(config_dict.get('vector_col', [])[0]) else []
     # result={}
-    print(f"Date columns for imputation: {datecolImputer}")  # 디버깅 출력
 
     steps = []
     # 수치형 변수 처리 파이프라인(결측치를 null_impute_type값[mean,median,max,min]에 따라 채움)
