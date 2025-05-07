@@ -317,21 +317,31 @@ class VectorPCAProcessor:
 def convert_non_decimal(df):
     df = df.copy()
     cols = config_dict.get('non_dec_col', [])
-    if not cols or pd.isna(cols):
+    if not cols or pd.isna(cols[0]):
+        print("No non-decimal columns specified.")
         return df
     for col in cols:
+        if col not in df.columns:
+            print(f"Error: Non-decimal column '{col}' not found in DataFrame. Available columns: {df.columns.tolist()}")
+            continue
         def parse_non_decimal(val):
             try:
+                if pd.isna(val):
+                    return np.nan
                 if isinstance(val, str):
                     val = val.lower().strip()
                     if val.startswith('0b'):
                         return int(val, 2)  # 2진수
                     elif val.startswith('0x'):
                         return int(val, 16)  # 16진수
+                    elif val.isdigit():
+                        return int(val)  # 10진수
                     else:
-                        return int(val)  # 10진수 가정
+                        print(f"Invalid non-decimal format: {val}")
+                        return np.nan
                 return val
-            except (ValueError, TypeError):
+            except (ValueError, TypeError) as e:
+                print(f"Error converting '{val}': {e}")
                 return np.nan
         df[f'dec_{col}'] = df[col].apply(parse_non_decimal)
         df.drop(columns=[col], inplace=True)
@@ -521,22 +531,24 @@ def do_imputation(df, pipe):
         
         return X_full.reset_index(drop=True)
 
-def scaling(df):    
+# 스케일링 함수 수정
+def scaling(df):
     df = df.copy()
-    if config_dict['scale'] is np.nan:
-        config_dict['scale'] = ['minmax']   # default with minmax scaling
-    if config_dict['scale'][0] =='minmax':
+    # 숫자형 컬럼만 선택
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    non_numeric_cols = [col for col in df.columns if col not in numeric_cols]
+    if non_numeric_cols:
+        print(f"Warning: Non-numeric columns detected and excluded from scaling: {non_numeric_cols}")
+        df = df[numeric_cols]
+    if df.empty:
+        print("Error: No numeric columns available for scaling.")
+        return df
+    if config_dict['scale'] == 'minmax':
         scaler = MinMaxScaler()
-        scaler.fit(df)
-        return scaler.transform(df)
-    elif config_dict['scale'][0] =='standard':
+    else:
         scaler = StandardScaler()
-        scaler.fit(df)
-        return scaler.transform(df)
-    else: 
-        scaler = MinMaxScaler()
-        scaler.fit(df)
-        return scaler.transform(df)        
+    scaler.fit(df)
+    return scaler.transform(df)
 
 
 if __name__ == '__main__':
@@ -574,21 +586,30 @@ if __name__ == '__main__':
         Y_COL = config_dict['y_col'][0]
         original_file = join_abs_path(f'{parent}/data/{folder}', config_dict['file_name'][0])
         df_initial = read_data(original_file)
+        print(f"Initial columns: {df_initial.columns.tolist()}")
 
         # 1. Label column Encoding
         df_labeld, y_null_exist = y_label_enc(df_initial)
+        print(f"After y_label_enc: {df_labeld.columns.tolist()}")
+
 
         # 1.1json 처리
         df_jsoned = extract_json_data(df_labeld)
+        print(f"After extract_json_data: {df_jsoned.columns.tolist()}")
 
         # 1.2 진법형 처리
         df_non_dec = convert_non_decimal(df_jsoned)
+        print(f"After convert_non_decimal: {df_non_dec.columns.tolist()}")
+        print(f"Data types after convert_non_decimal: {df_non_dec.dtypes}")
 
         # 1.3 문장형 처리
         df_sentenced = sentence_to_vector(df_non_dec)
+        print(f"After sentence_to_vector: {df_sentenced.columns.tolist()}")
+
 
         # 2. 데이터 정리 및 변수 분류
         df_organized, discrete, continuous, categorical = organize_data(df_jsoned, y_null_exist)
+        print(f"After organize_data: {df_organized.columns.tolist()}")
 
         # 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
         if config_dict['mixed'] is not np.nan:
@@ -631,6 +652,7 @@ if __name__ == '__main__':
                     Path(dest_path).mkdir(parents=True, exist_ok=True)
                     dest_path = os.path.join(dest_path, f'trans_{ori_file_name}_{null_impute_type}.csv')
                     df_piped.to_csv(dest_path, index=False)
+                    print(f"Before scaling: {df_piped.drop(columns=[Y_COL, 'split']).dtypes}")
 
 
         # 10. 스케일링 작업 및 저장/ Train과 Test 를 따로 스케일링
