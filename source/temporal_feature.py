@@ -105,3 +105,7 @@ def fit(self, X, y=None):
         # 입력 데이터가 DataFrame인지 확인
         if not isinstance(X, pd.DataFrame):
             raise TypeError("Input must be a pandas DataFrame")
+        # 지정된 컬럼이 존재하는지 확인
+        if not all(var in X.columns for var in self.variables):
+            missing_vars = [var for var in self.variables if var not in X.columns]
+            raise ValueError(f"Variables {missing_vars} not found in input data")
