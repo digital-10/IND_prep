@@ -98,3 +98,10 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
                 return pd.to_datetime(value_str)
         
         return series.apply(convert_value)
+def fit(self, X, y=None):
+        """
+        데이터 타입 검증 및 날짜형으로 변환 가능한지 확인
+        """
+        # 입력 데이터가 DataFrame인지 확인
+        if not isinstance(X, pd.DataFrame):
+            raise TypeError("Input must be a pandas DataFrame")
