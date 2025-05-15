@@ -28,3 +28,6 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
     )
     def __init__(self, variables, features=['year', 'month', 'day', 'dayofweek'], 
                 drop_original=True):
+        self.variables = [variables] if isinstance(variables, str) else variables
+        self.features = features
+        self.drop_original = drop_original
