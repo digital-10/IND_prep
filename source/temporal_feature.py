@@ -25,7 +25,7 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
     drop_original : bool, default True
         원본 날짜 컬럼 삭제 여부
     """
-    )
+    
     def __init__(self, variables, features=['year', 'month', 'day', 'dayofweek'], 
                 drop_original=True):
         self.variables = [variables] if isinstance(variables, str) else variables
@@ -98,7 +98,7 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
                 return pd.to_datetime(value_str)
         
         return series.apply(convert_value)
-def fit(self, X, y=None):
+    def fit(self, X, y=None):
         """
         데이터 타입 검증 및 날짜형으로 변환 가능한지 확인
         """
@@ -117,4 +117,44 @@ def fit(self, X, y=None):
                 raise ValueError(f"Column {var} cannot be converted to datetime: {str(e)}")
                 
         return self
+        
+    def transform(self, X):
+        """
+        지정된 날짜 컬럼들에서 특성 추출
+        """
+        X = X.copy()
     
+        for var in self.variables:
+            
+            # 전체 컬럼에 대한 데이터 형식 확인
+            date_series = self._convert_to_datetime(X[var])
+            
+            # 컬럼의 전반적인 특성 결정
+            if (date_series.dt.time == pd.Timestamp('00:00:00').time()).all():
+                # 모든 값이 날짜만 있는 경우
+                valid_features = [f for f in self.features if f != 'time_seconds']
+            elif (date_series.dt.date == pd.Timestamp('1900-01-01').date()).all():
+                # 모든 값이 시간만 있는 경우
+                valid_features = ['time_seconds']
+            else:
+                # 날짜와 시간이 모두 있는 경우
+                valid_features = self.features
+
+        # 특성 추출
+        for feature in valid_features:
+            new_column = f"{var}_{feature}"
+            if feature == 'time_seconds' and 'time_seconds' in valid_features:
+                # 시간만 있는 경우, 1900-01-01 기준으로 계산
+                X[new_column] = (date_series.dt.hour * 3600 +
+                                date_series.dt.minute * 60 +
+                                date_series.dt.second +
+                                date_series.dt.microsecond / 1000000).astype(float)
+                # 소수점 한 자리로 포맷팅
+                X[new_column] = X[new_column].map(lambda x: format(x, '.1f'))
+            else:
+                X[new_column] = self.available_features[feature](date_series)
+        
+        # 원본 컬럼 삭제 옵션
+        if self.drop_original:
+            X = X.drop(columns=[var])
+        return X
