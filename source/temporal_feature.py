@@ -158,3 +158,21 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
         if self.drop_original:
             X = X.drop(columns=[var])
         return X
+# 사용 예시:
+"""
+# Transformer 생성
+date_transformer = DateFeatureTransformer(
+    variables=['order_date', 'delivery_date'],
+    features=['year', 'month', 'day', 'dayofweek', 'quarter'],
+    drop_original=True
+)
+
+# 파이프라인에 추가
+pipe = Pipeline([
+    ('date_features', date_transformer),
+    # ... 다른 전처리 단계들 ...
+])
+
+# 또는 단독으로 사용
+X_transformed = date_transformer.fit_transform(X)
+"""
