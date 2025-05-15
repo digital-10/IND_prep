@@ -49,3 +49,9 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
                                     x.dt.second +
                                     x.dt.microsecond / 1000000),
         }
+
+        # 요청된 특성이 지원되는지 확인
+        for feature in self.features:
+            if feature not in self.available_features:
+                raise ValueError(f"'{feature}' is not a supported date feature. "
+                                f"Available features: {list(self.available_features.keys())}")
