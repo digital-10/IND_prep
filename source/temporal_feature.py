@@ -76,3 +76,8 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
             return [f for f in self.features if f in ['time_seconds']]
         # 전체 날짜가 있는 경우 모든 요청 특성 반환
         return self.features
+    def _convert_to_datetime(self, series):
+        """
+        시리즈를 datetime으로 변환
+        시간만 있는 경우 임의의 날짜(1900-01-01)를 사용
+        """
