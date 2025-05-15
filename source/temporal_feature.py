@@ -55,3 +55,24 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
             if feature not in self.available_features:
                 raise ValueError(f"'{feature}' is not a supported date feature. "
                                 f"Available features: {list(self.available_features.keys())}")
+            
+    def _is_time_only(self, s):
+        """
+        문자열이 시간만 포함하고 있는지 확인
+        """
+        time_only_patterns = [
+            r'^\d{1,2}:\d{2}(:\d{2})?(\.\d+)?$',  # HH:MM:SS.fff
+            r'^\d{1,2}:\d{2}(:\d{2})?(\s?[AaPp][Mm])?$'  # HH:MM:SS AM/PM
+        ]
+        return any(re.match(pattern, str(s).strip()) for pattern in time_only_patterns)
+    def _get_valid_features(self, value):
+        """
+        데이터 형식에 따라 적절한 특성 목록 반환
+        """
+        if pd.isna(value):
+            return []
+        if self._is_time_only(value):
+            # 시간만 있는 경우 시간 관련 특성만 반환
+            return [f for f in self.features if f in ['time_seconds']]
+        # 전체 날짜가 있는 경우 모든 요청 특성 반환
+        return self.features
