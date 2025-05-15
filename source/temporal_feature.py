@@ -31,3 +31,21 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
         self.variables = [variables] if isinstance(variables, str) else variables
         self.features = features
         self.drop_original = drop_original
+
+        # 지원하는 날짜 특성들
+        self.available_features = {
+            'year': lambda x: x.dt.year,
+            'month': lambda x: x.dt.month,
+            'day': lambda x: x.dt.day,
+            'dayofweek': lambda x: x.dt.dayofweek,
+            'quarter': lambda x: x.dt.quarter,
+            'dayofyear': lambda x: x.dt.dayofyear,
+            'weekofyear': lambda x: x.dt.isocalendar().week,
+            'is_month_start': lambda x: x.dt.is_month_start.astype(int),
+            'is_month_end': lambda x: x.dt.is_month_end.astype(int),
+            # 시간을 초단위로 변환 (하루 중 경과 초)
+            'time_seconds': lambda x: (x.dt.hour * 3600 + 
+                                    x.dt.minute * 60 + 
+                                    x.dt.second +
+                                    x.dt.microsecond / 1000000),
+        }
