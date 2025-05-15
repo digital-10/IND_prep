@@ -81,3 +81,20 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
         시리즈를 datetime으로 변환
         시간만 있는 경우 임의의 날짜(1900-01-01)를 사용
         """
+        def convert_value(value):
+            if pd.isna(value):
+                return pd.NaT
+            
+            value_str = str(value).strip()
+            if self._is_time_only(value_str):
+                # 시간만 있는 경우 임의의 날짜와 결합
+                dummy_date = '1900-01-01 '
+                return pd.to_datetime(dummy_date + value_str)
+            try:
+                # 날짜만 있는 경우
+                return pd.to_datetime(value_str).normalize()
+            except:
+                # 날짜와 시간이 모두 있는 경우
+                return pd.to_datetime(value_str)
+        
+        return series.apply(convert_value)
