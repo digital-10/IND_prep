@@ -109,3 +109,12 @@ def fit(self, X, y=None):
         if not all(var in X.columns for var in self.variables):
             missing_vars = [var for var in self.variables if var not in X.columns]
             raise ValueError(f"Variables {missing_vars} not found in input data")
+                # 날짜형으로 변환 가능한지 확인
+        for var in self.variables:
+            try:
+                pd.to_datetime(X[var])
+            except Exception as e:
+                raise ValueError(f"Column {var} cannot be converted to datetime: {str(e)}")
+                
+        return self
+    
