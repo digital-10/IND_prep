@@ -26,3 +26,5 @@ class DateFeatureTransformer2(BaseEstimator, TransformerMixin):
         원본 날짜 컬럼 삭제 여부
     """
     )
+    def __init__(self, variables, features=['year', 'month', 'day', 'dayofweek'], 
+                drop_original=True):
