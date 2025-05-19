@@ -240,3 +240,12 @@ def extract_json_data(df):
     """
     cols = config_dict['dict_col']
     df = df.copy()
+    for col in cols:
+        json_column_data = df[col].tolist()
+        # JSON 데이터를 저장할 리스트
+        json_records = []
+        for json_str in json_column_data:
+            try:
+                # JSON 문자열을 파싱
+                json_data = json.loads(json_str)
+                )
