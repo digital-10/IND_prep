@@ -51,7 +51,15 @@ def read_data(afile):
     # else:
     #     #date_col이 여러개면 안돌아갈 수 있음
     #     # # Case 2-1: date_col이 keep_col에 포함된 경우
-    #     # if config_dict['date_col'] in config_dict['keep_col']: 
+    #     # if config_dict['date_col'] in config_dict['keep_col']:
+
+    #     # Case 2-1: date_col 중 하나라도 keep_col에 포함된 경우
+    #     if any(col in config_dict['keep_col'] for col in config_dict['date_col']):
+    #         df = pd.read_csv(afile, usecols=config_dict['keep_col'], parse_dates=config_dict['date_col'])
+    #         # date_col이 정말 date형인지 확인
+    #         for col in config_dict['date_col']:
+    #             if not pd.api.types.is_datetime64_any_dtype(df[col]):
+    #                 df[col] = df[col].apply(safe_parse)
     
 
 
