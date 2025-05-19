@@ -113,6 +113,12 @@ def discrete_cont(df):
                     and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
                     and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
                     and data[var].nunique() < config_dict['discrete_thresh_hold']]
+        # 연속형 변수 : 숫자형이면서 이산형이 아닌 경우 및 날자컬럼이 아닌 경우
+        continuous = [var for var in data.columns if
+                      data[var].dtype != 'O' and var != Y_COL and var not in config_dict['date_col']
+                      and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
+                      and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
+                      and var not in discrete]
 ']]
      
     
