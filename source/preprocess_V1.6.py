@@ -180,4 +180,9 @@ def discretiser(df, numeric):
     method = config_dict['discretiser_type'][0]
     cols = config_dict['discretiser']
     for col in cols:
+        if method == 'equalwidth':
+            trans = EqualWidthDiscretiser()
+            X = df[[col]]
+            trans.fit(X)
+
         
