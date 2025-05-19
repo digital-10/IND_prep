@@ -12,3 +12,5 @@ from feature_engine import encoding as ce
 from feature_engine.discretisation import EqualWidthDiscretiser, EqualFrequencyDiscretiser
 from feature_engine.encoding import OneHotEncoder
 from dateutil.parser import parse
+from sklearn.decomposition import PCA
+from sentence_transformers import SentenceTransformer
