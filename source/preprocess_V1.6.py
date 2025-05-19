@@ -9,3 +9,6 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
 from feature_engine import imputation as mdi
 from feature_engine import encoding as ce
+from feature_engine.discretisation import EqualWidthDiscretiser, EqualFrequencyDiscretiser
+from feature_engine.encoding import OneHotEncoder
+from dateutil.parser import parse
