@@ -132,6 +132,7 @@ print(f'There are {dict_cols_len} dict variables')
 print(f'There are {vector_cols_len} vector variables')
 print(f'There are {non_dec_cols_len} non-decimal variables')
 print(f'There are {sentence_cols_len} sentence variables')
+print(f'There are {len(discrete)} discrete variables')
      
     
 
