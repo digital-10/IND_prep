@@ -121,6 +121,8 @@ def discrete_cont(df):
                       and var not in discrete]
 # categorical
 # 객체형(문자열) 데이터이면서 타겟변수가 아닌 경우
+categorical = [var for var in data.columns if
+               data[var].dtype == 'O' and var != Y_COL and var not in config_dict['date_col']]
      
     
 
