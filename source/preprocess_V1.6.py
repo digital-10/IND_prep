@@ -204,5 +204,6 @@ def discretiser(df, numeric):
             print(f'Method Not Available for column {col}')
 
         # 실수형이면 truncate_to_integer 함수 호출
+        if np.issubdtype(df[col].dtype, np.floating):
 
         
