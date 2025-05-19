@@ -95,6 +95,7 @@ def discrete_cont(df):
     # 진법형
     non_dec_cols_len = len(config_dict['non_dec_col']) if config_dict['non_dec_col'] and not pd.isna(config_dict['non_dec_col'][0]) else 0
     # 문장형
+    sentence_cols_len = len(config_dict['sentence_col']) if config_dict['sentence_col'] and not pd.isna(config_dict['sentence_col'][0]) else 0
      
     
 
