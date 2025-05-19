@@ -217,5 +217,6 @@ def find_boundaries(df, variable, distance):
     upper_boundary = df[variable].quantile(0.75) + (IQR * distance)
     return lower_boundary, upper_boundary
 
-
+def outlier(df):
+    df = df.copy()
         
