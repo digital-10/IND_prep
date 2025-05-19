@@ -163,6 +163,14 @@ def truncate_to_integer(series):
     #value_map = pd.Series(truncated_series.values, index=series.values)
 
     return truncated_series
+
+# 정수형의 1의 자리를 버림
+def truncate_to_ten(series):
+    series /= 10
+    # 소수점 이하 잘라내고 정수로 변환
+    truncated_series = series.astype(int)
+    truncated_series *= 10
+    # 원본 값과 변환된 값의 관계 저장(XAI 필요하면 사용)
     
 
 
