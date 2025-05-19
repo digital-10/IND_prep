@@ -69,6 +69,11 @@ def read_data(afile):
     cols = position_Y_col(cols)
     return df[cols]
 
+def y_label_enc(df):
+    df = df.copy()
+    # 타켓 변수(Y_COL)에 결측치가 있는지 확인
+    if df[Y_COL]
+
 
     
 
