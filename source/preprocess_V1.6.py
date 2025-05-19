@@ -27,7 +27,7 @@ warnings.filterwarnings("ignore")
 def join_abs_path(p1,p2):
     return os.path.abspath(os.path.join(p1,p2))
 
-def position_Y_col(cols): # Y label을 가장 뒤로 위치 변경
+def position_Y_COL(cols): # Y label을 가장 뒤로 위치 변경
     if Y_COL in cols:  # Y_COL이 있을 때만 remove 실행
         cols_copy = cols.copy()
         cols_copy.remove(Y_COL)
@@ -147,7 +147,8 @@ def separate_mixed(df):
     df[mixed_col+'cat'] = df[mixed_col].str[s:e] # captures the first letter
 
     # drop original mixed
-    df.drop([mixed_col]
+    df.drop([mixed_col], axis = 1, inplace=True)
+    cols = position_
 
     
 
