@@ -90,8 +90,11 @@ def discrete_cont(df):
 
     # json형
     dict_cols_len = len(config_dict['dict_col']) if config_dict['dict_col'] and not pd.isna(config_dict['dict_col'][0]) else 0
+    # 벡터형
+    vector_cols_len = len(config_dict['vector_col']) if config_dict['vector_col'] and not pd.isna(config_dict['vector_col'][0]) else 0
+    # 진법형
 
-    #']
+    # 문장형
      
     
 
