@@ -86,9 +86,12 @@ def discrete_cont(df):
     #원본 데이터 보존을 위해 카피하여 작업함
     data = df.copy()
     # 날짜형, 시간형
-    date_cols_len = len(config_disct['date_col']) if config_disct['date_col'] and not pd.isna(config_dict['date_col'][0]) else 0
+    date_cols_len = len(config_dict['date_col']) if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else 0
 
-    # 
+    # json형
+    dict_cols_len = len(config_dict['dict_col']) if config_dict['dict_col'] and not pd.isna(config_dict['dict_col'][0]) else 0
+
+    #']
      
     
 
