@@ -191,4 +191,15 @@ def discretiser(df, numeric):
             trans.fit(X)
             df[col] = trans.transform(X)[col]
         elif method == 'equalfixed':
+            
+            # 실수형이면 truncate_to_integer 함수 호출
+            if np.issubdtype(df[col].dtype, np.floating):  # 실수형 확인
+                truncated_data = truncate_to_integer(df[col])
+                df[col] = truncated_data  # 변환된 정수형 데이터로 대체
+            # 정수형이면 truncate_to_ten 함수 호출
+            else:
+                truncated_data = truncate_to_ten(df[col])
+                df[col] = truncated_data  # 변환된 정수형 데이터로 대체
+        else:
+            print(f'Method Not Available for column {col}')
         
