@@ -175,4 +175,7 @@ def truncate_to_ten(series):
 
     return truncated_series
 
-
+def discretiser(df, numeric):
+    df = df.copy()
+    method = config_dict['discretiser_type'][0]
+    cols = config_dict['discretiser']']
