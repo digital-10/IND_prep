@@ -65,9 +65,11 @@ def read_data(afile):
     #     else:
     #         df = pd.read_csv(afile, usecols=config_dict['keep_col'])
     df = pd.read_csv(afile, usecols=config_dict['keep_col'])
-    return df
+    cols = list(df.columns)
+    cols = position_Y_col(cols)
+    return df[cols]
 
-)
+
     
 
 
