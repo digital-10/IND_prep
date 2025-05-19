@@ -17,3 +17,13 @@ from sentence_transformers import SentenceTransformer
 
 import mean_median2 as mm
 import temporal_feature as tf
+from pathlib import Path
+import warnings
+import traceback
+import json
+
+warnings.filterwarnings("ignore")
+
+def join_abs_path(p1,p2):
+    return os.path.abspath(os.path.join(p1,p2))
+
