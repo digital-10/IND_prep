@@ -171,6 +171,8 @@ def truncate_to_ten(series):
     truncated_series = series.astype(int)
     truncated_series *= 10
     # 원본 값과 변환된 값의 관계 저장(XAI 필요하면 사용)
+    #value_map = pd.Series(truncated_series.values, index=series.values)
+    
     
 
 
