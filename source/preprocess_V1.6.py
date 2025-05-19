@@ -41,5 +41,13 @@ def safe_parse(date_string):
         return parse(date_string)
     except (ValueError, TypeError):
         return None  # 또는 다른 오류 처리 방법
+    
+def read_data(afile):
+    #날짜컬럼은 temporal_feature.py에서 처리함
+    # #case 1 : 날짜 컬럼이 없는 경우
+    # if config_dict['date_col'] is np.nan:
+    #     df = pd.read_csv(afile, usecols=config_dict['keep_col'])
+    # # Case 2: 날짜 컬럼이 있는 경우
+    
 
 
