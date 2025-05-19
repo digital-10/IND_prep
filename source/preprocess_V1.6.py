@@ -205,5 +205,14 @@ def discretiser(df, numeric):
 
         # 실수형이면 truncate_to_integer 함수 호출
         if np.issubdtype(df[col].dtype, np.floating):
+            truncated_data = truncate_to_integer(df[col])
+            df[col] = truncated_data  # 변환된 정수형 데이터로 대체
+
+    return df
+
+#이상치 탐색을 위한 평균값 구하기
+def find_boundaries(df, variable, distance):
+    IQR = df[variable].quantile(0.75) - def[variable].quantile(0.25)
+
 
         
