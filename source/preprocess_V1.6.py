@@ -238,3 +238,5 @@ def extract_json_data(df):
     Returns:
     DataFrame: JSON 데이터가 포함된 새로운 DataFrame
     """
+    cols = config_dict['dict_col']
+    df = df.copy()
