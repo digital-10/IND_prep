@@ -48,6 +48,10 @@ def read_data(afile):
     # if config_dict['date_col'] is np.nan:
     #     df = pd.read_csv(afile, usecols=config_dict['keep_col'])
     # # Case 2: 날짜 컬럼이 있는 경우
+    # else:
+    #     #date_col이 여러개면 안돌아갈 수 있음
+    #     # # Case 2-1: date_col이 keep_col에 포함된 경우
+    #     # if config_dict['date_col'] in config_dict['keep_col']: 
     
 
 
