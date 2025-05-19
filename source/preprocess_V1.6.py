@@ -81,7 +81,15 @@ def y_label_enc(df):
     df[Y_COL] = labeler.fit_transform(df[Y_COL])
     return df, y_null_exist
 
+#분류별 칼럼 분류(discrete : 셀 수 있음, continuous: 연속형, categorical : 오브젝트, 그외 날짜 데이터)
+def discrete_cont(df):
+    #원본 데이터 보존을 위해 카피하여 작업함
+    data = df.copy()
+    # 날짜형, 시간형
+    date_cols_len = len(config_disct['date_col']) if config_disct['date_col'] and not pd.isna(config_dict['date_col'][0]) else 0
 
+    # 
+     
     
 
 
