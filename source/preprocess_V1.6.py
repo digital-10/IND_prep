@@ -213,6 +213,9 @@ def discretiser(df, numeric):
 #이상치 탐색을 위한 평균값 구하기
 def find_boundaries(df, variable, distance):
     IQR = df[variable].quantile(0.75) - def[variable].quantile(0.25)
+    lower_boundary = df[variable].quantile(0.25) - (IQR * distance)
+    upper_boundary = df[variable].quantile(0.75) + (IQR * distance)
+    return lower_boundary, upper_boundary
 
 
         
