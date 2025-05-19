@@ -184,5 +184,10 @@ def discretiser(df, numeric):
             trans = EqualWidthDiscretiser()
             X = df[[col]]
             trans.fit(X)
-
+            df[col] = trans.transform(X)[col]
+        elif method == 'equalfrequency':
+            trans = EqualFrequencyDiscretiser()
+            X = df[[col]]
+            trans.fit(X)
+            df[col] = trans.transform(X)[col]'
         
