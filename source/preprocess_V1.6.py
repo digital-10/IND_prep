@@ -137,6 +137,13 @@ print(f'There are {len(continuous)} continuous variables')
 print(f'There are {len(categorical)} categorical variables')
 return discrete, continuous, categorical
      
+def separate_mixed(df):
+    df = df.copy()
+    s = config_dict['mixed_str'][0]
+    e = config_dict['mixed_str'][1]
+    mixed_col = config_dict['mixed'][0]
+    df[mixed_col+'num'] = df[mixed_col].str.extract(r'(\d+)')
+    
     
 
 
