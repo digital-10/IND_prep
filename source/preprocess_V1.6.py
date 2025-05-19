@@ -64,6 +64,10 @@ def read_data(afile):
     #     # Case 2-2: date_col이 keep_col에 없는 경우
     #     else:
     #         df = pd.read_csv(afile, usecols=config_dict['keep_col'])
+    df = pd.read_csv(afile, usecols=config_dict['keep_col'])
+    return df
+
+)
     
 
 
