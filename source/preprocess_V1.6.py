@@ -27,3 +27,10 @@ warnings.filterwarnings("ignore")
 def join_abs_path(p1,p2):
     return os.path.abspath(os.path.join(p1,p2))
 
+def position_Y_col(cols):
+    if Y_COL in cols:  # Y_COL이 있을 때만 remove 실행
+        cols_copy = cols.copy()
+        cols_copy.remove(Y_COL)
+        return cols_copy + [Y_COL]
+    else:  # Y_COL이 없으면 변경없이 리턴
+        return cols
