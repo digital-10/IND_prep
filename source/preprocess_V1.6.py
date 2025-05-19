@@ -99,6 +99,12 @@ def discrete_cont(df):
     
     # Case 1 : 날짜 컬럼이 없으면
     if date_cols_len < 1:
+        # 이산형 변수: 숫자형이면서 고유값이 임계값보다 적은 경우
+        discrete = [var for var in data.columns if
+                    data[var].dtype != 'O' and var != Y_COL and data[var].nunique() < config_dict['discrete_thresh_hold']]
+        # 연속형 변수: 숫자형이면서 이산형이 아닌 경우
+        continuous = [var for var in data.columns if
+                      data[var].dtype != 'O' and var != Y_COL and var not in discrete]
      
     
 
