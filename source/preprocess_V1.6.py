@@ -119,7 +119,8 @@ def discrete_cont(df):
                       and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
                       and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
                       and var not in discrete]
-']]
+# categorical
+# 객체형(문자열) 데이터이면서 타겟변수가 아닌 경우
      
     
 
