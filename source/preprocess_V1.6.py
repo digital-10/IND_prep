@@ -129,6 +129,8 @@ categorical = [var for var in data.columns if
 # 전처리 데이터 타입 확인용
 print(f'There are {date_cols_len} date_time variables')
 print(f'There are {dict_cols_len} dict variables')
+print(f'There are {vector_cols_len} vector variables')
+print(f'There are {non_dec_cols_len} non-decimal variables')
      
     
 
