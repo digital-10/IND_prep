@@ -93,7 +93,7 @@ def discrete_cont(df):
     # 벡터형
     vector_cols_len = len(config_dict['vector_col']) if config_dict['vector_col'] and not pd.isna(config_dict['vector_col'][0]) else 0
     # 진법형
-
+    non_dec_cols_len = len(config_dict['non_dec_col']) if config_dict['non_dec_col'] and not pd.isna(config_dict['non_dec_col'][0]) else 0
     # 문장형
      
     
