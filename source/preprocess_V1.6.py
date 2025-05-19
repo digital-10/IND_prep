@@ -189,5 +189,6 @@ def discretiser(df, numeric):
             trans = EqualFrequencyDiscretiser()
             X = df[[col]]
             trans.fit(X)
-            df[col] = trans.transform(X)[col]'
+            df[col] = trans.transform(X)[col]
+        elif method == 'equalfixed':
         
