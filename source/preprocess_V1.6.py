@@ -222,5 +222,8 @@ def outlier(df):
     cols = config_dict['outlier']
     for c in cols:
         upper_limit, lower_limit = find_boundaries(df, c, config_dict['iqr'])
-
+        outliers_ = np.where(df[c] > uppper_limit, True,
+                    np.where(df[c]<lower_limit, True, False))
+        df = df.loc[~(outliers_)]
+    return df
         
