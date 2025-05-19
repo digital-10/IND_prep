@@ -142,8 +142,13 @@ def separate_mixed(df):
     s = config_dict['mixed_str'][0]
     e = config_dict['mixed_str'][1]
     mixed_col = config_dict['mixed'][0]
-    df[mixed_col+'num'] = df[mixed_col].str.extract(r'(\d+)')
-    
+    df[mixed_col+'num'] = df[mixed_col].str.extract(r'(\d+)') #captures numerical part
+    df[mixed_col+'num'] = df[mixed_col+'num'].astype('float')
+    df[mixed_col+'cat'] = df[mixed_col].str[s:e] # captures the first letter
+
+    # drop original mixed
+    df.drop([mixed_col]
+
     
 
 
