@@ -135,6 +135,7 @@ print(f'There are {sentence_cols_len} sentence variables')
 print(f'There are {len(discrete)} discrete variables')
 print(f'There are {len(continuous)} continuous variables')
 print(f'There are {len(categorical)} categorical variables')
+return discrete, continuous, categorical
      
     
 
