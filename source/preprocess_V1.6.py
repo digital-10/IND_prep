@@ -66,7 +66,7 @@ def read_data(afile):
     #         df = pd.read_csv(afile, usecols=config_dict['keep_col'])
     df = pd.read_csv(afile, usecols=config_dict['keep_col'])
     cols = list(df.columns)
-    cols = position_Y_col(cols)
+    cols = position_Y_COL(cols)
     return df[cols]
 
 def y_label_enc(df):
@@ -148,8 +148,21 @@ def separate_mixed(df):
 
     # drop original mixed
     df.drop([mixed_col], axis = 1, inplace=True)
-    cols = position_
+    cols = position_Y_COL(list(df.columns))
+    return df[cols]
 
+#소수형을 정수형으로 
+def truncate_to_integer(series):
+    # 모든 값이 1보다 클 때까지 10을 곱함
+    while (series < 1).any():
+        series *= 10
+    # 소수점 이하 잘라내고 정수로 변환
+    truncated_series = series.astype(int)
+
+    #원본 값과 변환된 값의 관계 저장(XAI 필요하면 사용)
+    #value_map = pd.Series(truncated_series.values, index=series.values)
+
+    return truncated_series
     
 
 
