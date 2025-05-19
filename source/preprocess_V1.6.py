@@ -219,4 +219,5 @@ def find_boundaries(df, variable, distance):
 
 def outlier(df):
     df = df.copy()
+    cols = config_dict['outlier']
         
