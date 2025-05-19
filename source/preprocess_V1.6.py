@@ -226,4 +226,15 @@ def outlier(df):
                     np.where(df[c]<lower_limit, True, False))
         df = df.loc[~(outliers_)]
     return df
-        
+
+#json 데이터 처리
+def extract_json_data(df):
+    """
+    주어진 JSON 문자열 데이터를 파싱하여 딕셔너리 형태로 변환하는 함수
+
+    Parameters:
+    json_column_data (list): JSON 문자열이 포함된 리스트
+
+    Returns:
+    DataFrame: JSON 데이터가 포함된 새로운 DataFrame
+    """
