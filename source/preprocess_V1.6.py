@@ -7,3 +7,5 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import StandardScaler
+from feature_engine import imputation as mdi
+from feature_engine import encoding as ce
