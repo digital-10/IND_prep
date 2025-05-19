@@ -96,6 +96,9 @@ def discrete_cont(df):
     non_dec_cols_len = len(config_dict['non_dec_col']) if config_dict['non_dec_col'] and not pd.isna(config_dict['non_dec_col'][0]) else 0
     # 문장형
     sentence_cols_len = len(config_dict['sentence_col']) if config_dict['sentence_col'] and not pd.isna(config_dict['sentence_col'][0]) else 0
+    
+    # Case 1 : 날짜 컬럼이 없으면
+    if date_cols_len < 1:
      
     
 
