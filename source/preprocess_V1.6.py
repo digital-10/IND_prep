@@ -220,4 +220,7 @@ def find_boundaries(df, variable, distance):
 def outlier(df):
     df = df.copy()
     cols = config_dict['outlier']
+    for c in cols:
+        upper_limit, lower_limit = find_boundaries(df, c, config_dict['iqr'])
+
         
