@@ -72,7 +72,14 @@ def read_data(afile):
 def y_label_enc(df):
     df = df.copy()
     # 타켓 변수(Y_COL)에 결측치가 있는지 확인
-    if df[Y_COL]
+    if df[Y_COL].isnull().any():
+        y_null_exist = True
+    else:
+        y_null_exist = False
+    labeler = LabelEncoder()
+    #타겟 변수를 숫자로 인코딩
+    df[Y_COL] = labeler.fit_transform(df[Y_COL])
+    return df, y_null_exist
 
 
     
