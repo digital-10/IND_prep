@@ -202,4 +202,7 @@ def discretiser(df, numeric):
                 df[col] = truncated_data  # 변환된 정수형 데이터로 대체
         else:
             print(f'Method Not Available for column {col}')
+
+        # 실수형이면 truncate_to_integer 함수 호출
+
         
