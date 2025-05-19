@@ -119,23 +119,23 @@ def discrete_cont(df):
                       and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
                       and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']
                       and var not in discrete]
-# categorical
-# 객체형(문자열) 데이터이면서 타겟변수가 아닌 경우
-categorical = [var for var in data.columns if
-               data[var].dtype == 'O' and var != Y_COL and var not in config_dict['date_col']
-               and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
-               and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']]
+    # categorical
+    # 객체형(문자열) 데이터이면서 타겟변수가 아닌 경우
+    categorical = [var for var in data.columns if
+                data[var].dtype == 'O' and var != Y_COL and var not in config_dict['date_col']
+                and var not in config_dict['dict_col'] and var not in config_dict['vector_col']
+                and var not in config_dict['non_dec_col'] and var not in config_dict['sentence_col']]
 
-# 전처리 데이터 타입 확인용
-print(f'There are {date_cols_len} date_time variables')
-print(f'There are {dict_cols_len} dict variables')
-print(f'There are {vector_cols_len} vector variables')
-print(f'There are {non_dec_cols_len} non-decimal variables')
-print(f'There are {sentence_cols_len} sentence variables')
-print(f'There are {len(discrete)} discrete variables')
-print(f'There are {len(continuous)} continuous variables')
-print(f'There are {len(categorical)} categorical variables')
-return discrete, continuous, categorical
+    # 전처리 데이터 타입 확인용
+    print(f'There are {date_cols_len} date_time variables')
+    print(f'There are {dict_cols_len} dict variables')
+    print(f'There are {vector_cols_len} vector variables')
+    print(f'There are {non_dec_cols_len} non-decimal variables')
+    print(f'There are {sentence_cols_len} sentence variables')
+    print(f'There are {len(discrete)} discrete variables')
+    print(f'There are {len(continuous)} continuous variables')
+    print(f'There are {len(categorical)} categorical variables')
+    return discrete, continuous, categorical
      
 def separate_mixed(df):
     df = df.copy()
@@ -178,4 +178,6 @@ def truncate_to_ten(series):
 def discretiser(df, numeric):
     df = df.copy()
     method = config_dict['discretiser_type'][0]
-    cols = config_dict['discretiser']']
+    cols = config_dict['discretiser']
+    for col in cols:
+        
