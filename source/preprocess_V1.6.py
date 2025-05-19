@@ -60,6 +60,10 @@ def read_data(afile):
     #         for col in config_dict['date_col']:
     #             if not pd.api.types.is_datetime64_any_dtype(df[col]):
     #                 df[col] = df[col].apply(safe_parse)
+
+    #     # Case 2-2: date_col이 keep_col에 없는 경우
+    #     else:
+    #         df = pd.read_csv(afile, usecols=config_dict['keep_col'])
     
 
 
