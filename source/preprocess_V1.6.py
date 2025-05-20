@@ -352,3 +352,6 @@ def organize_data(df, y_null_exist):
             null_threshhold_cols.append(col)
     
     #임계치를 넘은 대상을 빼고 다시 df 만듬
+    cols_stayed = [c for c in cols if c not in null_threshhold_cols]
+    df = df[cols_stayed+[Y_COL]].copy()
+
