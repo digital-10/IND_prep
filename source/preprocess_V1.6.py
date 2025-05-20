@@ -316,3 +316,10 @@ def convert_non_decimal(df):
         df.drop(columns=[col], inplace=True)
     cols = position_Y_COL(list(df.columns))
     return df[cols]
+# 문장형 -> 벡터형
+def sentence_to_vector(df):
+    df = df.copy()
+    cols = config_dict.get('sentence_col',[])
+    if not cols or pd.isna(cols):
+        return df
+    model_name = config_dict.get('embedding_model', 'sentenec')
