@@ -323,3 +323,10 @@ def sentence_to_vector(df):
     if not cols or pd.isna(cols):
         return df
     model_name = config_dict.get('embedding_model', 'sentenece_transformers/all-MiniLM-L6-v2')
+    model = SentenceTransformer(model_name)
+    for col in cols:
+        sentences = df[col].fillna('').tolist()
+        embeddings = model.encode(sentences, show_progress_bar=False)
+        #벡터를 새로운 컬럼으로 추가
+        for i in range(embeddings.shape[1]):
+            df
