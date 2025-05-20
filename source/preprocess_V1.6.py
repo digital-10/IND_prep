@@ -260,5 +260,7 @@ def extract_json_data(df):
         # 새로운 컬럼명으로 DataFrame의 컬럼명 변경
         json_df.rename(columns=new_column_names, inplace=True)
         df = pd.concat([df, json_df],axis=1)
+        df.drop(col, axis=1, inplace=True)
+    return df
 
         #
