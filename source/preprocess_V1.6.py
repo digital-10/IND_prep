@@ -248,4 +248,7 @@ def extract_json_data(df):
             try:
                 # JSON 문자열을 파싱
                 json_data = json.loads(json_str)
-                )
+                json_records.appned(json_data)
+            except (json.JSONDecodeError, TypeError)as e:
+                print(f"JSON 파싱 오류 : {str(e)}")
+                json_records.append({})
