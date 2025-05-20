@@ -276,6 +276,7 @@ class VectorPCAProcessor:
             vectors = np.array(vectors)
             self.pca.fit(vectors)
         return self
+    
     def transform(self, X):
         X = X.copy()
         for col in self.variables:
@@ -291,3 +292,26 @@ class VectorPCAProcessor:
             X.drop(columns=[col], inplace=True)
         return X
     
+# 진법형 -> 정수형
+def convert_non_decimal(df):
+    df = df.copy()
+    cols = config_dict.get('non_dec_col',[])
+    if not cols or pd.isna(cols):
+        return df
+    for col in cols:
+        def parse_non_decimal(val):
+            try: 
+                if isinstance(val, str):
+                    val = val.lower().strip()
+                    if val.startswith('0b'):
+                        return int(val, 2) # 2진수
+                    elif val.startswith('0x'):
+                        return int(val, 16)
+                    else:
+                        return int(val)
+                return val
+            except(ValueError, TypeError):
+                return np.nan
+        df[f'dec_{col}'] = df[col].apply(parse_non_decimal)
+        df.drop(columns=[col], inplace=True)
+        
