@@ -322,4 +322,4 @@ def sentence_to_vector(df):
     cols = config_dict.get('sentence_col',[])
     if not cols or pd.isna(cols):
         return df
-    model_name = config_dict.get('embedding_model', 'sentenec')
+    model_name = config_dict.get('embedding_model', 'sentenece_transformers/all-MiniLM-L6-v2')
