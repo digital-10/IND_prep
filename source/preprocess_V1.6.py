@@ -355,3 +355,7 @@ def organize_data(df, y_null_exist):
     cols_stayed = [c for c in cols if c not in null_threshhold_cols]
     df = df[cols_stayed+[Y_COL]].copy()
 
+    if y_null_exist:
+        df = df[df[Y_COL] != df[Y_COL].max()].copy()
+
+    return df,discrete, continuous, categorical
