@@ -384,7 +384,16 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
         pipe = Pipeline([
             #수치형 변수 결측치 대체
             ("imputer",
-             mm.MeanMedianImputer2(
-                 imputation_method=null_impute_type, variables=numberImputer),),
-                 #범주형 변수 결측치 대체
+            mm.MeanMedianImputer2(
+                imputation_method=null_impute_type, variables=numberImputer),),
+                #범주형 변수 결측치 대체
+                ('imputer_cat',
+                mdi.CategoricalImputer(variables=categorical)),
+                #One-Hot Encoding 적용
+                ('categorical_encoder',
+                 ce.OneHotEncoder(variables=oheImputer)),
+                #라벨링 인코딩 적용
+                ('categorical_encoder2',
+                 ce.OrdinalEncoder(encoding_method='ordered',
+                variables=categoricalImputer)))
         ])
