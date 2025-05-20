@@ -314,4 +314,5 @@ def convert_non_decimal(df):
                 return np.nan
         df[f'dec_{col}'] = df[col].apply(parse_non_decimal)
         df.drop(columns=[col], inplace=True)
-        
+    cols = position_Y_COL(list(df.columns))
+    return df[cols]
