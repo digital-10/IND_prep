@@ -269,4 +269,6 @@ class VectorPCAProcessor:
         self.n_components = n_components
         self.pca = PCA(n_components=n_components)
 
-        
+    def fit(self, X, y=None):
+        for col in self.variables:
+            #벡터형 데이터를 numpy 배열로 변환
