@@ -272,3 +272,8 @@ class VectorPCAProcessor:
     def fit(self, X, y=None):
         for col in self.variables:
             #벡터형 데이터를 numpy 배열로 변환
+            vectors = [eval(vec) if isinstance(vec, str) else vec for vec in X[col]]
+            vectors = np.array(vectors)
+            self.pca.fit(vectors)
+        return self
+    
