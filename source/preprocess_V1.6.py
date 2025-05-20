@@ -365,4 +365,4 @@ def make_train_test(df):
     X = df.drop(columns=Y_COL)
     y = df[Y_COL]
     X_train,X_test, y_train, y_test = train_test_split(X,y, test_size=config_dict['test_size'], random_state=0, stratify=y)
-    return x_train, X_test, y_train, y_test
+    return X_train, X_test, y_train, y_test
