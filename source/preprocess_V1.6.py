@@ -402,5 +402,5 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
         if (len(numberImputer) > 0) & (len(categoricalImputer) == 0):
             pipe = Pipeline([
                 #수치형 변수 결측치만 대체
-                9
+                ()
             ])
