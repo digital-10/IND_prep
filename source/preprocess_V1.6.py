@@ -252,7 +252,13 @@ def extract_json_data(df):
             except (json.JSONDecodeError, TypeError)as e:
                 print(f"JSON 파싱 오류 : {str(e)}")
                 json_records.append({})
+        # JSON 데이터를 DataFrame으로 변환
         json_df = pd.DataFrame(json_records)
+        # 새로운 컬럼명 생성 : 기존 컬럼명 + "_" + JSON 키
         new_column_names = {key: f"{col}_{key}" for key in json_df.columns}
+
+        # 새로운 컬럼명으로 DataFrame의 컬럼명 변경
+        json_df.rename(columns=new_column_names, inplace=True)
+        df = pd.concat([df, json_df],axis=1)
 
         #
