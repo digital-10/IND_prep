@@ -262,5 +262,11 @@ def extract_json_data(df):
         df = pd.concat([df, json_df],axis=1)
         df.drop(col, axis=1, inplace=True)
     return df
+# 벡터형 -> 소수형(PCA)
+class VectorPCAProcessor:
+    def __init__(self, variables, n_components=3):
+        self.variables = variables
+        self.n_components = n_components
+        self.pca = PCA(n_components=n_components)
 
-        #
+        
