@@ -359,3 +359,7 @@ def organize_data(df, y_null_exist):
         df = df[df[Y_COL] != df[Y_COL].max()].copy()
 
     return df,discrete, continuous, categorical
+
+def make_train_test(df):
+    df = df.copy()
+    X = df.drop(columns=Y_COL)
