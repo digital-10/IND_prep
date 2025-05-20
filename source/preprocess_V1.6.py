@@ -333,3 +333,8 @@ def sentence_to_vector(df):
         df.drop(columns=[col], inplace=True)
     cols = position_Y_COL(list(df.columns))
     return df[cols]
+
+# 데이터 전처리 함수
+def organize_data(df, y_null_exist):
+    df = df.copy()
+    cols = list(df.columns)
