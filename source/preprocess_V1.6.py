@@ -385,6 +385,6 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
             #수치형 변수 결측치 대체
             ("imputer",
              mm.MeanMedianImputer2(
-                 imputation_method=null_impute_type, 
-             ))
+                 imputation_method=null_impute_type, variables=numberImputer),),
+                 #범주형 변수 결측치 대체
         ])
