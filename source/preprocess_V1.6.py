@@ -366,3 +366,8 @@ def make_train_test(df):
     y = df[Y_COL]
     X_train,X_test, y_train, y_test = train_test_split(X,y, test_size=config_dict['test_size'], random_state=0, stratify=y)
     return X_train, X_test, y_train, y_test
+
+#각 형태별로 파이프라인을 추가하는 형태로 변경
+def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
+    # 연속형 변수와 이산형 변수를 합쳐서 수치형 변수로 처리
+    numberImputer = continuous + discrete
