@@ -338,3 +338,6 @@ def sentence_to_vector(df):
 def organize_data(df, y_null_exist):
     df = df.copy()
     cols = list(df.columns)
+    cols.remove(Y_COL)
+    null_threshhold_cols = []
+    discrete, continuous, categorical = discrete_cont(df)
