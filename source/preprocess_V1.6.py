@@ -378,3 +378,13 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
     oheIMputer = config_dict['ohe']
 
     result = {}
+
+    # 수치형 변수와 범주형 변수가 모두 있는 경우
+    if (len(numberImputer) > 0 ) & (len(categoricalImputer) > 0):
+        pipe = Pipeline([
+            #수치형 변수 결측치 대체
+            ("imputer",
+             mm.MeanMedianImputer2(
+                 
+             ))
+        ])
