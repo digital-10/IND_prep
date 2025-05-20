@@ -329,4 +329,7 @@ def sentence_to_vector(df):
         embeddings = model.encode(sentences, show_progress_bar=False)
         #벡터를 새로운 컬럼으로 추가
         for i in range(embeddings.shape[1]):
-            df
+            df[f'{col}_vec_{i}'] = embeddings[:,i]
+        df.drop(columns=[col], inplace=True)
+    cols = position_Y_COL(list(df.columns))
+    return df[cols]
