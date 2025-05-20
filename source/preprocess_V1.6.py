@@ -252,3 +252,7 @@ def extract_json_data(df):
             except (json.JSONDecodeError, TypeError)as e:
                 print(f"JSON 파싱 오류 : {str(e)}")
                 json_records.append({})
+        json_df = pd.DataFrame(json_records)
+        new_column_names = {key: f"{col}_{key}" for key in json_df.columns}
+
+        #
