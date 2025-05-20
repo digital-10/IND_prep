@@ -282,5 +282,12 @@ class VectorPCAProcessor:
             #벡터형 데이터를 numpy 배열로 변환
             vectors = [eval(vec) if isinstance(vec ,str) else vec for vec in X[col]]
             vectors = np.array(vectors)
-            self.pca.fir(vectors)
-        return self
+            # PCA 적용
+            transformed = self.pca.transform(vectors)
+            # 새로운 컬럼 추가
+            for i in range(self.n_components):
+                X[f'{col}_pca_{i}'] = transformed[:,i]
+            # 원본 컬럼 삭제
+            X.drop(columns=[col], inplace=True)
+        return X
+    
