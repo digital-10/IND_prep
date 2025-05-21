@@ -460,5 +460,9 @@ def do_imputation(df,pipe):
         x_train = pipe.transform(xtrain)
         X_test = pipe.transform(xtest)
 
+        # 훈련 세트에 타겟 변수와 'split' 열 추가
+        X_train[Y_COL] = y_train
+        
+
 
     
