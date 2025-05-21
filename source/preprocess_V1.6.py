@@ -462,7 +462,13 @@ def do_imputation(df,pipe):
 
         # 훈련 세트에 타겟 변수와 'split' 열 추가
         X_train[Y_COL] = y_train
-        
+        X_train['split'] = 'train'
+
+        # 테스트 세트에 타겟 변수와 'split' 열 추가
+        X_test[Y_COL] = y_test
+        X_test['split'] = 'test'
+        return pd.concat([X_train,X_test]).reset_index(drop=True)
+else : 
 
 
     
