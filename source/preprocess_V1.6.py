@@ -449,5 +449,10 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     
     return Pipeline(steps) if steps else []
 
+def do_imputation(df,pipe):
+    train=False
+    if(train):
+        xtrain, xtest
+
 
     
