@@ -375,7 +375,7 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
     categoricalImputer = categorical.copy()
     # One_Hot Encoding 대상 변수 제외
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe'])]
-    oheIMputer = config_dict['ohe']
+    oheImputer = config_dict['ohe']
 
     result = {}
 
@@ -402,5 +402,11 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
         if (len(numberImputer) > 0) & (len(categoricalImputer) == 0):
             pipe = Pipeline([
                 #수치형 변수 결측치만 대체
-                ()
+                ('imputer_cat',
+                 mdi.CategoricalImputer(variables=categorical)),
+                ('categorical_encoder',
+                  ce.OneHotEncoder(varaibles=oheImputer)),
+                ('categorical_encoder2',
+                 ce.OrdinalEncoder)
+
             ])
