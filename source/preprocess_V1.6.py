@@ -407,6 +407,9 @@ def make_imputer_pipe_old(continuous, discrete, categorical, null_impute_type):
                 ('categorical_encoder',
                   ce.OneHotEncoder(varaibles=oheImputer)),
                 ('categorical_encoder2',
-                 ce.OrdinalEncoder)
-
+                 ce.OrdinalEncoder(encoding_method='ordered',
+                    variables=categoricalImputer))
             ])
+        else:
+            pipe = []
+    return pipe
