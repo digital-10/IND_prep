@@ -422,4 +422,9 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe'])]
     oheImputer = config_dict['ohe']
     datecolImputer = config_dict['date_col'] if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else []
-    vectorImputer = config_dict.get('vector_col', []) if config_dict.get('vector_col', []) and not pd.isna(config_dict.get)
+    vectorImputer = config_dict.get('vector_col', []) if config_dict.get('vector_col', []) and not pd.isna(config_dict.get('vector_col', [])[0]) else []
+    #result = {}
+    steps = []
+    # 수치형 변수 처리 파이프라인(걀측치를 null_impute_type값[mean, median,max,min]에 따라 채움)
+    if numberImputer:
+        steps.append(("numeric_imputer", mm.MeanMedianImputer2(imputation_method=null_impute_type, variables=numberImputer)))
