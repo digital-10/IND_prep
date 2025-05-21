@@ -428,3 +428,7 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 수치형 변수 처리 파이프라인(걀측치를 null_impute_type값[mean, median,max,min]에 따라 채움)
     if numberImputer:
         steps.append(("numeric_imputer", mm.MeanMedianImputer2(imputation_method=null_impute_type, variables=numberImputer)))
+    # 범주형 변수 처리 파이프라인(결측치를 최빈값으로 채움)
+    if categorical:
+        steps.append(('categorical_imputer', mdi.CategoricalImputer(variables=categorical)))
+    
