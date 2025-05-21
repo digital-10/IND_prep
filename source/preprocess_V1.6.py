@@ -422,4 +422,4 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     categoricalImputer = [item for item in categoricalImputer if (item not in config_dict['ohe'])]
     oheImputer = config_dict['ohe']
     datecolImputer = config_dict['date_col'] if config_dict['date_col'] and not pd.isna(config_dict['date_col'][0]) else []
-    vectorImputer = config_dict.get()']
+    vectorImputer = config_dict.get('vector_col', []) if config_dict.get('vector_col', []) and not pd.isna(config_dict.get)
