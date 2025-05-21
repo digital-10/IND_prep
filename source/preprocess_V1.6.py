@@ -452,7 +452,13 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
 def do_imputation(df,pipe):
     train=False
     if(train):
-        xtrain, xtest
+        xtrain, xtest,y_train, y_test = make_train_test(df)
+
+        #pipe.fit(x_train, y_train)
+        # 파이프라인을 훈련 데이터에 맞춤
+        pipe.fit(xtrain, y_train)
+        x_train = pipe.transform(xtrain)
+        X_test = pipe.transform(xtest)
 
 
     
