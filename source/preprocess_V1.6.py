@@ -446,6 +446,8 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     #벡터 데이터 처리
     if vectorImputer:
         steps.append(('vector_pca',VectorPCAProcessor(variables=vectorImputer, n_components=config_dict.get('pca_components',3 ))))
+    
+    return Pipeline(steps) if steps else []
 
 
     
