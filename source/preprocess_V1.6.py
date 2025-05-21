@@ -431,4 +431,11 @@ def make_imputer_pipe(continuous, discrete, categorical, null_impute_type):
     # 범주형 변수 처리 파이프라인(결측치를 최빈값으로 채움)
     if categorical:
         steps.append(('categorical_imputer', mdi.CategoricalImputer(variables=categorical)))
+    # 원핫인코딩 처리(데이터 종류만큼 컬럼을 만들어 1,0으로 표현)
+    if oheImputer:
+        steps.append(('onehot_encoder', ce.OneHotEncoder(variables=oheImputer)))
+
+    # 라벨 인코딩 처리(데이터 종류별 고유수치로 변경, male->1, female->2)
+    if categoricalImputer:
+        steps.append(('label_encoder',ce.OrdinalEncoder(encoding_method='ordered', variables=categoricalImputer)))
     
