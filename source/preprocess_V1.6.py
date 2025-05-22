@@ -484,11 +484,20 @@ def do_imputation(df,pipe):
         X_full['split'] = 'full'
 
         return X_full.reset_index(drop=True)
+    
 def scaling(df):
     df = df.copy()
     if config_dict['scale'] is np.nan:
         config_dict['scale'] = ['minmax'] # default with minmax scaling
     if config_dict['scale'][0] =='minmax':
+        scaler = MinMaxScaler()
+        scaler.fit(df)
+        return scaler.transform(df)
+    elif config_dict['scale'][0] == 'standard':
+        scaler = StandardScaler()
+        scaler.fit(df)
+        return scaler.transform(df)
+    else:
         scaler = MinMaxScaler()
         scaler.fit(df)
         return scaler.transform(df)
