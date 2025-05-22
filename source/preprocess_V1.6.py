@@ -476,6 +476,15 @@ def do_imputation(df,pipe):
         # 파이프라인을 전체 데이터에 맞춤
         pipe.fit(df.drop(columns=[Y_COL]),y_full)
 
+        # 변환 적용
+        X_full = pipe.transform(df.drop(columns=[Y_COL]))
+
+        # 변환된 데이터프레임에 타겟 변수 추가
+        X_full[Y_COL] = y_full
+        X_full['split'] = 'full'
+
+        return X_full.reset_index(drop=True)
+
 
 
     
