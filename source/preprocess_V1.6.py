@@ -491,7 +491,7 @@ def scaling(df):
     if config_dict['scale'][0] =='minmax':
         scaler = MinMaxScaler()
         scaler.fit(df)
-        
+        return scaler.transform(df)
 
 
 
