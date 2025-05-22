@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 """
-Created on Tue Jul  4 15:31:23 2023
+Created on 2024-11-13
 
-@author: Digitalship_PC
+@author: sjh
 """
-
 # Authors: Soledad Galli <solegalli@protonmail.com>
 # License: BSD 3 clause
 
@@ -12,11 +10,9 @@ from typing import List, Optional, Union
 
 import pandas as pd
 
-
 from feature_engine._check_init_parameters.check_variables import (
     _check_variables_input_value,
 )
-
 from feature_engine._docstrings.fit_attributes import (
     _feature_names_in_docstring,
     _imputer_dict_docstring,
@@ -37,6 +33,7 @@ from feature_engine.variable_handling import (
     check_numerical_variables,
     find_numerical_variables,
 )
+
 
 @Substitution(
     variables=_variables_numerical_docstring,
@@ -111,15 +108,15 @@ class MeanMedianImputer2(BaseImputer):
         variables: Union[None, int, str, List[Union[str, int]]] = None,
     ) -> None:
 
-        if imputation_method not in ['median', 'mean', 'max', 'min']:
-            raise ValueError("imputation_method takes only values 'median' or 'mean'")
+        if imputation_method not in ["median", "mean", 'max', 'min']:
+            raise ValueError("imputation_method takes only values 'median', 'mean', 'max' or 'min'")
 
         self.imputation_method = imputation_method
-        self.variables = _check_init_parameter_variables(variables)
+        self.variables = _check_variables_input_value(variables)
 
     def fit(self, X: pd.DataFrame, y: Optional[pd.Series] = None):
         """
-        Learn the mean or median values.
+        Learn the mean, median, max or min values.
 
         Parameters
         ----------
@@ -139,13 +136,16 @@ class MeanMedianImputer2(BaseImputer):
         else:
             self.variables_ = check_numerical_variables(X, self.variables)
 
-        # find imputation parameters: mean or median
+        # find imputation parameters: mean, median, max or min
         if self.imputation_method == "mean":
             self.imputer_dict_ = X[self.variables_].mean().to_dict()
+
         elif self.imputation_method == "median":
             self.imputer_dict_ = X[self.variables_].median().to_dict()
+        
         elif self.imputation_method == "max":
             self.imputer_dict_ = X[self.variables_].max().to_dict()
+        
         elif self.imputation_method == "min":
             self.imputer_dict_ = X[self.variables_].min().to_dict()
 
