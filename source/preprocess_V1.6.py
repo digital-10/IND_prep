@@ -484,6 +484,10 @@ def do_imputation(df,pipe):
         X_full['split'] = 'full'
 
         return X_full.reset_index(drop=True)
+def scaling(df):
+    df = df.copy()
+    if config_dict['scale'] is np.nan:
+        config+dict
 
 
 
