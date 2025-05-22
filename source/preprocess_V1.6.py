@@ -501,6 +501,10 @@ def scaling(df):
         scaler = MinMaxScaler()
         scaler.fit(df)
         return scaler.transform(df)
+    
+if __name__ =='__main__':
+    # arv 예1 : credit
+    # arve 예2 : metro
 
 
 
