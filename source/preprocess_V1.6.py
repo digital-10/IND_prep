@@ -471,6 +471,8 @@ def do_imputation(df,pipe):
 else : 
     # 전체 데이터에 대해 파이프라인을 적용
     # 타겟 변수 분리
+    y_full = df[Y_COL]
+
 
 
     
