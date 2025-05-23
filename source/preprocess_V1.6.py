@@ -578,7 +578,12 @@ if null_imputes_types is not np.nan:
             df_piped = do_imputation(df,pipe)
             dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'imputed')
             Path(dest_path).mkdir(parents=True, exist_ok=True)
-                        
+            dest_path = os.path.join(dest_path, f'imputed_{ori_file_name}_{null_impute_type}.csv')
+            df_piped.to_csv(dest_path, index=False)
+# 8. discretization(연속형 변수를 범주형으로)
+            if config_dict['discretiser'] is not np.nan:
+                
+
 
 
 
