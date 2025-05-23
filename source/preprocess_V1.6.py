@@ -511,7 +511,7 @@ if __name__ =='__main__':
         #folder = sys.argv[1] #take input with argv parameter
         folder = "loans" #테스트용
 
-        parent = join-abs_path(os.getcwd(), os.pardir)
+        parent = join_abs_path(os.getcwd(), os.pardir)
         conf_file = f'argumet_{folder}.xlsx'
         configs = pd.read_excel(join_abs_path(f'{parent}/config',conf_file), header=None).set_index(0)
         config_cols = configs.index.tolist()
@@ -525,6 +525,7 @@ if __name__ =='__main__':
         ori_file_name = config_dict['file_name'][0].split('.')[0]
 
     #mixed_str의 정수 변환
+    if config_dict
 
 
 
