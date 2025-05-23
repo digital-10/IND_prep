@@ -518,7 +518,11 @@ if __name__ =='__main__':
         config_dict = {}
         for c in config_cols:
             config_dict[c] = configs.loc[c].values[0]
-            if (type(config_dict[c]) == int) or 
+            if (type(config_dict[c]) == int) or (type(config_dict[c]) == float):
+                pass
+            else:
+                config_dict[c] = config_dict[c].values[0].split(',')
+        ori_file_name = config_dict['file_name'][0].split('.')[0]
 
 
 
