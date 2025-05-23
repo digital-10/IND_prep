@@ -552,3 +552,5 @@ df_sentenced = sentence_to_vector(df_non_dec)
 
 # 2. 데이터 정리 및 변수 분류
 df_organized, discrete, continuous, categorical = organize_data(df_sentenced, y_null_exist)
+
+# 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
