@@ -554,3 +554,11 @@ df_sentenced = sentence_to_vector(df_non_dec)
 df_organized, discrete, continuous, categorical = organize_data(df_sentenced, y_null_exist)
 
 # 3. Mixed 칼럼을 숫자형/문자형으로 분리(분리 후 df_organized, discrete, continuous, categorical 재분류)
+if config_dict['mixed'] is not np.nan:
+    df = separate_mixed(df_organized)
+    discrete, continuous, categorical = discrete_cont(df)
+else: 
+    df = df_organized.copy()
+
+# null_imputes_types 정의
+null_imputes_types = config_dict['null_imp']
