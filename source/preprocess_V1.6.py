@@ -515,6 +515,10 @@ if __name__ =='__main__':
         conf_file = f'argumet_{folder}.xlsx'
         configs = pd.read_excel(join_abs_path(f'{parent}/config',conf_file), header=None).set_index(0)
         config_cols = configs.index.tolist()
+        config_dict = {}
+        for c in config_cols:
+            
+
 
 
 
