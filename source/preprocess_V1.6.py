@@ -517,7 +517,8 @@ if __name__ =='__main__':
         config_cols = configs.index.tolist()
         config_dict = {}
         for c in config_cols:
-            
+            config_dict[c] = configs.loc[c].values[0]
+            if (type(config_dict[c]) == int) or 
 
 
 
