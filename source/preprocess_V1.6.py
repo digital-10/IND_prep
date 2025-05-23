@@ -541,5 +541,5 @@ df_initial = read_data(original_file)
 #1. Label column Encoding
 df_labeld, y_null_exist = y_label_enc(df_initial)
 
-
-
+#1.1json 처리
+df_jsoned = extract_json_data(df_labeld)
