@@ -571,9 +571,14 @@ if null_imputes_types is not np.nan:
         if pipe == []:
             print('no pipe applied')
         else:
-        # 5. discretization(연속형 변수를 범주형으로)
+# 5. discretization(연속형 변수를 범주형으로)
             if config_dict['discretiser'] is not np.nan:
                 df_piped = discretiser(df, discrete+continuous)
+# 6. imputation thru pipeline
+            df_piped = do_imputation(df,pipe)
+            dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'imputed')
+            Path(dest_path).mkdir(parents=True, exist_ok=True)
+                        
 
 
 
