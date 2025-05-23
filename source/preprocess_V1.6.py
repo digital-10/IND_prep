@@ -539,7 +539,7 @@ original_file = join_abs_path(f'{parent}/data/{folder}', config_dict['file_name'
 df_initial = read_data(original_file)
 
 #1. Label column Encoding
-df
+df_labeld, y_null_exist = y_label_enc(df_initial)
 
 
 
