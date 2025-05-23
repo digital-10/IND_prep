@@ -524,6 +524,7 @@ if __name__ =='__main__':
                 config_dict[c] = config_dict[c].values[0].split(',')
         ori_file_name = config_dict['file_name'][0].split('.')[0]
 
+    #mixed_str의 정수 변환
 
 
 
