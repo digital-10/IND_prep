@@ -506,6 +506,10 @@ if __name__ =='__main__':
     # arv 예1 : credit
     # arve 예2 : metro
 
+    try:
+        #파라미터
+        #folder = sys.argv[1] #take input with argv parameter
+
 
 
 
