@@ -532,7 +532,8 @@ if __name__ =='__main__':
         print('No Y column exists')
         raise Exception
     if config_dict['discrete_thresh_hold'] is np.nan or config_dict['discrete_thresh_hold'] < 0:
-        print('discrete_thresh_hold set to default')
+        print('discrete_thresh_hold set to default 10')
+        config_dict['discret_thresh_hold'] = 10
 
 
 
