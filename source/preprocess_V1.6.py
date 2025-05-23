@@ -531,7 +531,8 @@ if __name__ =='__main__':
     if config_dict['y_col'] is np.nan or len(config_dict['y_col']) != 1:
         print('No Y column exists')
         raise Exception
-    if config_di
+    if config_dict['discrete_thresh_hold'] is np.nan or config_dict['discrete_thresh_hold'] < 0:
+        print('discrete_thresh_hold set to default')
 
 
 
