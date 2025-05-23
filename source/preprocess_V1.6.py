@@ -509,6 +509,7 @@ if __name__ =='__main__':
     try:
         #파라미터
         #folder = sys.argv[1] #take input with argv parameter
+        folder = "loans" #테스트용
 
 
 
