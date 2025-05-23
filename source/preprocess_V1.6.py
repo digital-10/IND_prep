@@ -546,3 +546,6 @@ df_jsoned = extract_json_data(df_labeld)
 
 # 1.2 진법형 처리
 df_non_dec = convert_non_decimal(df_jsoned)
+
+# 1.3 문장형 처리
+df_sentenced = sentence_to_vector(df_non_dec)
