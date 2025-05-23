@@ -566,9 +566,15 @@ null_imputes_types = config_dict['null_imp']
 if null_imputes_types is not np.nan:
     for null_impute_type in null_imputes_types:
 # 4. pipeline 정의
-    pipe = make_imputer_pipe(discrete, continuous, categorical, null_impute_type)
+        pipe = make_imputer_pipe(discrete, continuous, categorical, null_impute_type)
 
-    if pipe == []:
-        print('no pipe applied')
-    else:
-#5. discretization
+        if pipe == []:
+            print('no pipe applied')
+        else:
+        # 5. discretization(연속형 변수를 범주형으로)
+            if config_dict['discretiser'] is not np.nan:
+                df_piped = discretiser(df, discrete+continuous)
+
+
+
+
