@@ -513,7 +513,8 @@ if __name__ =='__main__':
 
         parent = join-abs_path(os.getcwd(), os.pardir)
         conf_file = f'argumet_{folder}.xlsx'
-        configs = pd.read_excel(join_abs_path)
+        configs = pd.read_excel(join_abs_path(f'{parent}/config',conf_file), header=None).set_index(0)
+        config_cols = configs.index.tolist()
 
 
 
