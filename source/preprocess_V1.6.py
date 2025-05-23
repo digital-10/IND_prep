@@ -549,3 +549,6 @@ df_non_dec = convert_non_decimal(df_jsoned)
 
 # 1.3 문장형 처리
 df_sentenced = sentence_to_vector(df_non_dec)
+
+# 2. 데이터 정리 및 변수 분류
+df_organized, discrete, continuous, categorical = organize_data(df_sentenced, y_null_exist)
