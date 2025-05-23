@@ -562,3 +562,8 @@ else:
 
 # null_imputes_types 정의
 null_imputes_types = config_dict['null_imp']
+
+if null_imputes_types is not np.nan:
+    for null_impute_type in null_imputes_types:
+# 4. pipeline 정의
+    pipe = make_imputer_pipe(discrete, continuous, categorical, null_impute_type)
