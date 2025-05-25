@@ -582,7 +582,9 @@ if null_imputes_types is not np.nan:
             df_piped.to_csv(dest_path, index=False)
 # 8. discretization(연속형 변수를 범주형으로)
             if config_dict['discretiser'] is not np.nan:
-                
+                df_piped = discretiser(df_piped, discrete+continuous)
+
+# 9
 
 
 
