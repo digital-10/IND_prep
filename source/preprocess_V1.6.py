@@ -615,3 +615,8 @@ if null_imputes_types is not np.nan:
                 X_test_scaled['index'] = tmp[con]['index'].values
                 X_test_scaled = X_test_scaled.set_index('index')
                 X_test_scaled[Y_COL] = df_piped[con][Y_COL]
+                X_test_scaled['split'] = df_piped[con]['split']
+                X_test_scaled.index.name = None
+                del tmp
+            if not X_train_scaled and not X_test_scaled:
+                
