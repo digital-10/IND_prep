@@ -606,7 +606,7 @@ if null_imputes_types is not np.nan:
                 x_train_scaled[Y_COL] = df_piped[con][Y_COL]
                 x_train_scaled['split'] = df_piped[con]['split']
 #10.2 X_test 스케일링
-            con = df_piped['split'] == 'train'
+            con = df_piped['split'] == 'test'
             X_train_scaled = []
             if not df_piped[con].empty:
                 X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
