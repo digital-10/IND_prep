@@ -597,4 +597,9 @@ if null_imputes_types is not np.nan:
 
 
 # 10. 스케일링 작업 및 저장/ Train과 Test를 따로 스케일링
+# 10.1 X_train 스케일링
+            con = df_piped['split'] == 'train'
+            X_train_scaled = []
+            if not df_piped[con].empty:
+                X_train_scaled = scaling(df_piped[con].drop(columns=['split',Y_COL]))
 
