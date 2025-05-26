@@ -584,7 +584,8 @@ if null_imputes_types is not np.nan:
             if config_dict['discretiser'] is not np.nan:
                 df_piped = discretiser(df_piped, discrete+continuous)
 
-# 9
+# 9. 데이터 정제 저장
+            if config_dict['outlier'] is not np.nan:
 
 
 
