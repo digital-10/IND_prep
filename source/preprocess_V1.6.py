@@ -534,7 +534,7 @@ if __name__ =='__main__':
     if config_dict['discrete_thresh_hold'] is np.nan or config_dict['discrete_thresh_hold'] < 0:
         print('discrete_thresh_hold set to default 10')
         config_dict['discret_thresh_hold'] = 10
-Y_col = config_dict['y_col'][0]
+Y_COL = config_dict['y_col'][0]
 original_file = join_abs_path(f'{parent}/data/{folder}', config_dict['file_name'][0])
 df_initial = read_data(original_file)
 
@@ -603,4 +603,4 @@ if null_imputes_types is not np.nan:
             if not df_piped[con].empty:
                 X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
                 x_train_scaled = pd.DataFrame(X_train_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
-                x_train
+                x_train_scaled[Y_COL] = df_piped[con][Y_COL]
