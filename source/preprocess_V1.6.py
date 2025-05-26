@@ -612,4 +612,5 @@ if null_imputes_types is not np.nan:
                 X_train_scaled = scaling(df_piped[con].drop(columns=[Y_COL,'split']))
                 X_train_scaled = pd.DataFrame(X_train_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
                 tmp = df_piped.copy().reset_index()
+                X_test_scaled['index'] = tmp[con]['index'].values
                 X_test_scaled = X_test_scaled.set_index('index')
