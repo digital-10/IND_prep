@@ -588,6 +588,9 @@ if null_imputes_types is not np.nan:
             if config_dict['outlier'] is not np.nan:
                 df_piped = outlier(df_piped)
                 df_piped = df_piped.reset_index(drop=True)
+# 9.1 데이터 정제 저장
+            dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'trans')
+            Path(dest_path).mkdir(parents=True, exist_ok=True)
 
 
 
