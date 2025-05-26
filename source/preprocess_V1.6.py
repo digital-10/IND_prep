@@ -619,4 +619,4 @@ if null_imputes_types is not np.nan:
                 X_test_scaled.index.name = None
                 del tmp
             if not X_train_scaled and not X_test_scaled:
-                df_scaled = scaling(df_piped.drop(columns=))
+                df_scaled = scaling(df_piped.drop(columns=[Y_COL, 'split']))
