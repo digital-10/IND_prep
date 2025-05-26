@@ -614,3 +614,4 @@ if null_imputes_types is not np.nan:
                 tmp = df_piped.copy().reset_index()
                 X_test_scaled['index'] = tmp[con]['index'].values
                 X_test_scaled = X_test_scaled.set_index('index')
+                X_test_scaled[Y_COL] = df_piped[con][Y_COL]
