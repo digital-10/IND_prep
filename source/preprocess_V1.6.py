@@ -596,5 +596,5 @@ if null_imputes_types is not np.nan:
 
 
 
-
+# 10. 스케일링 작업 및 저장/ Train과 Test를 따로 스케일링
 
