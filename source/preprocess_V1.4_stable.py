@@ -403,17 +403,17 @@ def do_imputation(df, pipe):
         return X_full.reset_index(drop=True)
 def scaling(df):    
     df = df.copy()
-     if config_dict['scale'] is np.nan:
+    if config_dict['scale'] is np.nan:
         config_dict['scale'] = ['minmax']
-     if config_dict['scale'][0] =='minmax':
+    if config_dict['scale'][0] =='minmax':
         scaler = MinMaxScaler()
         scaler.fit(df)
         return scaler.transform(df)
-     elif config_dict['scale'][0] =='standard':
+    elif config_dict['scale'][0] =='standard':
         scaler = StandardScaler()
         scaler.fit(df)
         return scaler.transform(df)
-     else: 
+    else: 
         scaler = MinMaxScaler()
         scaler.fit(df)
         return scaler.transform(df)  
