@@ -623,3 +623,6 @@ if null_imputes_types is not np.nan:
                 df_scaled = pd.DataFrame(df_scaled, columns=df_piped.drop(columns=[Y_COL, 'split']).columns)
                 df_scaled[Y_COL] = df_piped[Y_COL]
                 df_scaled['split'] = df_piped['split']
+            else:
+                df_scaled = pd.concat([X_train_scaled, X_test_])
+                
