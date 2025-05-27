@@ -624,5 +624,6 @@ if null_imputes_types is not np.nan:
                 df_scaled[Y_COL] = df_piped[Y_COL]
                 df_scaled['split'] = df_piped['split']
             else:
-                df_scaled = pd.concat([X_train_scaled, X_test_])
+                df_scaled = pd.concat([X_train_scaled, X_test_scaled])
+            dest_path = os.path.join(parent, 'data_preprocessed', f'{folder}', 'scaled')
                 
