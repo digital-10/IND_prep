@@ -89,11 +89,15 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
         self.feature_names_in_ = X.columns.tolist()
         self._fitted_new_column_names_map = {}
 
-        if not self.variables_:
+        if not self.variables_: # 처리할 JSON 컬럼이 없으면 종료
             return self
 
         # 샘플 데이터를 사용하여 생성될 컬럼명 예측(JSON 키는 행마다 다를 수 있으므로 근사치)
-        
+        sample_X = X[self.variables_].head(100)
+
+        for col_name in self.variables_:
+            
+
 
 
 
