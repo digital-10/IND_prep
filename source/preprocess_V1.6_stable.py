@@ -96,7 +96,7 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
         sample_X = X[self.variables_].head(100)
 
         for col_name in self.variables_:
-            
+            if col_name not in smaple_X.columns:
 
 
 
