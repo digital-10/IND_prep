@@ -30,6 +30,10 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
     def __init__(self, variables: Union[None, List[str]]==None,
                 encoding_method: str = 'ordered',
                 suffix: str = '_ordinal'):
+        if variables is not None and not isinstance(variables, list):
+            self.variables = [varaibles]
+        else:
+            self.variables = varaibles
 
 
 
