@@ -42,6 +42,12 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
         if self.variables is None:
             raise ValueError("Parameter 'variables' must be provided as a list of column names.")
         self.varaibles_ = self.variables # 실제로 변환될 변수들
+        self.feature_names_in_ = X.columns.tolist()
+
+        self.encoder_ = ce.OrdinalEncoder(
+            encoding_method=self.encoding_method,
+            variables=self.variables_
+        )
 
 
 
