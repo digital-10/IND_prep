@@ -27,7 +27,10 @@ warnings.filterwarnings("ignore")
 def join_abs_path(p1,p2):
     return os.path.abspath(os.path.join(p1,p2))
 class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
-    
+    def __init__(self, variables: Union[None, List[str]]==None,
+                encoding_method: str = 'ordered',
+                suffix: str = '_ordinal'):
+
 
 
 
