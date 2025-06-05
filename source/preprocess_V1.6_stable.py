@@ -74,7 +74,13 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
 
 class JSONExtractortransformer(BaseEstimator, TransformerMixin):
     def __init__(self, variables: Union[None, List[str]]==None):
-        if variables 
+        if variables is not None and not isinstance(variables, list):
+            self.variables =[variables]
+        else:
+            self.variables = variables
+        self.feature_names_in_ = None
+        self.variables_ = None # 실제로 처리될 컬럼들
+        self._fitted_new_column_names_map = {} # 학습된 새 컬럼명 저장용
 
 
 
