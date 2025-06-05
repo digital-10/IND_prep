@@ -51,6 +51,7 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
         self.encoder_.fit(X,y)
         return self
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
+        X_input_for_internal_encoder = X.copy()
 
 
 
