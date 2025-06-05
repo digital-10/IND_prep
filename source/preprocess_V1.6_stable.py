@@ -63,10 +63,14 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
 
         X_output = X_output.drop(columns=self.variables_)
         return X_output
+        
     def get_feature_names_out(self, input_features: List[str] = None) -> List[str]:
         if input_features is None:
             input_features = self.feature_names_in_
         output_features = [col for col in input_features if col not in self.variables_]
+        for var in self.variables_:
+            output_features.append(f"{var}{self.suffix}")
+        return output_features
 
 
 
