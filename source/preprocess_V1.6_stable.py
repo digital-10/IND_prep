@@ -113,6 +113,12 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
                 self._fitted_new_column_names_map[col_name] = []
         return self
 
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
+        X_out = X.copy()
+
+        for col_name in self.variables_:
+            if col_name not in X_out.columns: # 컬럼이 이미 없는 경우 스킵
+
 
 
 
