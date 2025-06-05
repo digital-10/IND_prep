@@ -100,7 +100,8 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
                 continue
 
             temp_keys = set()
-            for json_str in sample_X[col_name].dropna(): #NaN 값은 json.loads 전에 지외
+            for json_str in sample_X[col_name].dropna(): #NaN 값은 json.loads 전에 제외
+                try : record = json.loads(json_str)
 
 
 
