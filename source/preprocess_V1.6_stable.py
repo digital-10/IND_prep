@@ -53,6 +53,10 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         X_input_for_internal_encoder = X.copy()
 
+        # encoder_가 variables_에 지정된 컬럼들만 변환한 DataFrame을 변환
+        X_processed_by_internal_encoder = self.encoder_.transform(X_input_for_internal_encoder)
+        X_output = X.copy()
+
 
 
 
