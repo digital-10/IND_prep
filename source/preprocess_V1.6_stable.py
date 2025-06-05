@@ -57,6 +57,13 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
         X_processed_by_internal_encoder = self.encoder_.transform(X_input_for_internal_encoder)
         X_output = X.copy()
 
+        for var in self.variables_:
+            new_col_name =f"{var}{self.suffix}"
+            X_output[new_col-name] = X_processed_by_internal_encoder[var]
+
+        X_output = X_output.drop(columns=self.variables_)
+        return X_output
+
 
 
 
