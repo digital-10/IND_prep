@@ -63,7 +63,7 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
 
         X_output = X_output.drop(columns=self.variables_)
         return X_output
-        
+
     def get_feature_names_out(self, input_features: List[str] = None) -> List[str]:
         if input_features is None:
             input_features = self.feature_names_in_
@@ -71,6 +71,10 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
         for var in self.variables_:
             output_features.append(f"{var}{self.suffix}")
         return output_features
+
+class JSONExtractortransformer(BaseEstimator, TransformerMixin):
+    def __init__(self, variables: Union[None, List[str]]==None):
+        if variables 
 
 
 
