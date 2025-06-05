@@ -101,7 +101,10 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
 
             temp_keys = set()
             for json_str in sample_X[col_name].dropna(): #NaN 값은 json.loads 전에 제외
-                try : record = json.loads(json_str)
+                try : 
+                    record = json.loads(json_str) 
+                    if isinstance(record, dict):
+                        
 
 
 
