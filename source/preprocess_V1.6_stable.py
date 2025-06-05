@@ -107,6 +107,8 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
                         temp_kets.update(record.kets())
                 except (json.JSONDecodeError, TypeError):
                     pass #파싱 오류는 무시하고 다음 레코드로
+            if temp_keys:
+                self._fitted_new_column_names_map[col_name] = sorted([f"{col_name}_{key}" for key in temp_keys])
 
 
 
