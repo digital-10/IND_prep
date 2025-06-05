@@ -104,7 +104,10 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
                 try : 
                     record = json.loads(json_str) 
                     if isinstance(record, dict):
-                        
+                        temp_kets.update(record.kets())
+                except (json.JSONDecodeError, TypeError):
+                    pass #파싱 오류는 무시하고 다음 레코드로
+
 
 
 
