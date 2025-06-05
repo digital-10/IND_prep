@@ -118,6 +118,10 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
 
         for col_name in self.variables_:
             if col_name not in X_out.columns: # 컬럼이 이미 없는 경우 스킵
+                continue
+            json_records = []
+            for json_str in X_out[col_name]:
+                try:
 
 
 
