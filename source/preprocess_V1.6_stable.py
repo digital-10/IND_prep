@@ -34,6 +34,10 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
             self.variables = [varaibles]
         else:
             self.variables = varaibles
+        self.encoding_method = encoding_method
+        self.suffix = suffix
+        self.encoder_ = None #feature-engine의 OrdianlEncoder 인스턴스
+        self.feature_names_in_ = None #sklearn 스타일 입력 특성 이름
 
 
 
