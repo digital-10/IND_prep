@@ -81,6 +81,11 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
         self.feature_names_in_ = None
         self.variables_ = None # 실제로 처리될 컬럼들
         self._fitted_new_column_names_map = {} # 학습된 새 컬럼명 저장용
+    def fit(self, X: pd.DataFrame, y: pd.Series = None):
+        if self.variables is None:
+            # 실전에서는 config에서 dict_col을 가져오므로, None이면 빈 리스트로 처리하거나 에러 발생
+            raise ValueError("JSON columns ('variables') must be provided for JSONExtractorTransformer.")
+        self.variables_ = [var for var in self.variables if var in X.columns]
 
 
 
