@@ -48,6 +48,9 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
             encoding_method=self.encoding_method,
             variables=self.variables_
         )
+        self.encoder_.fit(X,y)
+        return self
+    def transform(self, X: pd.DataFrame) -> pd.DataFrame:
 
 
 
