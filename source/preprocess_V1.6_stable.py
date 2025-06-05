@@ -97,6 +97,10 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
 
         for col_name in self.variables_:
             if col_name not in smaple_X.columns:
+                continue
+
+            temp_keys = set()
+            for json_str in sample_X[col_name].dropna(): #NaN 값은 json.loads 전에 지외
 
 
 
