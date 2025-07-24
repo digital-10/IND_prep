@@ -417,7 +417,7 @@ def scaling(df):
         scaler = MinMaxScaler()
         scaler.fit(df)
         return scaler.transform(df)  
-
+ㅁㄴㅇㄹ
 
 
 
