@@ -76,7 +76,7 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
     def __init__(self, variables: Union[None, List[str]]==None):
         if variables is not None and not isinstance(variables, list):
             self.variables =[variables]
-        else:
+        else:ㅁ
             self.variables = variables
         self.feature_names_in_ = None
         self.variables_ = None # 실제로 처리될 컬럼들
@@ -122,6 +122,10 @@ class JSONExtractortransformer(BaseEstimator, TransformerMixin):
             json_records = []
             for json_str in X_out[col_name]:
                 try:
+                    if pd.isna(json_str): # NaN 값 처리
+                        json_records.append({})
+                    else: 
+                        json_data = json.loads
 
 
 
