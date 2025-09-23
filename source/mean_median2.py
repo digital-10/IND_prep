@@ -8,7 +8,6 @@ Created on 2024-11-13
 
 from typing import List, Optional, Union
 
-
 import pandas as pd
 
 from feature_engine._check_init_parameters.check_variables import (
