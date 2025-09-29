@@ -594,7 +594,7 @@ def do_imputation(df,pipe):
 def scaling(df):
     df = df.copy()
     if config_dict['scale'] is np.nan:
-        config_dict['scale'] = ['minmax'] # default with minmax scaling
+        config_dict['scale'] = ['minmax']
     if config_dict['scale'][0] =='minmax':
         scaler = MinMaxScaler()
         scaler.fit(df)
