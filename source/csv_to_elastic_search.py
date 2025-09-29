@@ -5,6 +5,7 @@ import time
 import datetime
 from datetime import timedelta
 import os
+from typing import List, Optional, Union
 
 def utc_time():  # @timestamp timezone을 utc로 설정하여 kibana로 index 생성시 참조
     return datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S') + 'Z'
